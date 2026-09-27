@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="application-version" content="0.5.0">
+  <meta name="application-version" content="0.6.0">
   <meta name="theme-color" content="#315d49">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="造啥都行">
   <meta name="format-detection" content="telephone=no">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="description" content="造啥都行 V0.5：动态木板、轮子、转轴与绳子。六关物理建造解谜，支持触屏和离线。">
-  <title>造啥都行 — 机械时代 v0.5.0</title>
+  <meta name="description" content="造啥都行 V0.6：柔性可断绳索、可断转轴、全动态零件与主菜单。六关物理建造解谜，支持触屏和离线。">
+  <title>造啥都行 — 断裂实验 v0.6.0</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icon-180.png">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%232f5a48'/%3E%3Ccircle cx='24' cy='22' r='10' fill='%23ed986f'/%3E%3Cpath d='M14 44 49 32 53 43 18 55Z' fill='%23dfed9c'/%3E%3C/svg%3E">
@@ -325,7 +325,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   body[data-mode=running] .lab-panel,body[data-mode=paused] .lab-panel{box-shadow:0 0 0 1px #dce4d4}
 }
 
-/* V0.5 — preserve the existing scene/camera, add compact mechanical tools. */
+/* V0.6 — compact mechanical tools, universal dynamics and breakable links. */
 .level-tabs{min-width:0;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain;position:relative}
 .level-tabs::-webkit-scrollbar{display:none}
 .level-tab{flex:0 0 auto;padding-left:12px;padding-right:12px}
@@ -415,6 +415,10 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
  .play-toolbar .speed-button{min-width:38px;width:38px}
 }
 
+
+/* V0.6 main menu + universal dynamics + breakable links */
+.main-menu[hidden]{display:none!important}.main-menu{position:fixed;inset:0;z-index:80;display:grid;place-items:center;padding:max(18px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) max(18px,env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));background:linear-gradient(180deg,#f4f6ed 0%,#edf2e5 100%);color:#274438;overflow:auto}.menu-shell{width:min(760px,100%);display:grid;gap:16px}.menu-hero{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center;padding:18px 0 8px}.menu-logo{width:76px;height:76px;border-radius:22px;background:#315d49;position:relative;box-shadow:inset 0 0 0 1px #ffffff38}.menu-logo:before{content:"";position:absolute;width:20px;height:20px;border-radius:50%;background:#efa178;left:16px;top:15px}.menu-logo:after{content:"";position:absolute;width:44px;height:10px;border-radius:6px;background:#dbe77e;left:21px;bottom:18px;transform:rotate(-18deg)}.menu-eyebrow{font:700 11px/1.3 ui-monospace,SFMono-Regular,monospace;letter-spacing:.2em;color:#728269}.menu-title{margin:4px 0 2px;font-size:clamp(32px,8vw,56px);line-height:.95;color:#203f32}.menu-subtitle{margin:0;color:#70806a;font-size:14px}.menu-actions{display:grid;grid-template-columns:1.45fr 1fr;gap:10px}.menu-actions button,.menu-level{min-height:54px;border:1px solid #cad6bd;border-radius:14px;background:#fbfcf7;color:#28483a;font:inherit}.menu-actions .menu-primary{background:#315d49;color:#fff;border-color:#315d49;font-weight:800;font-size:17px}.menu-section{background:#fbfcf7;border:1px solid #d3ddc8;border-radius:20px;padding:14px}.menu-section-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px}.menu-section-head strong{font-size:15px}.menu-progress{font-size:12px;color:#7e8a75}.menu-levels{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.menu-level{display:grid;grid-template-columns:auto 1fr auto;align-items:center;text-align:left;padding:10px;gap:8px;min-width:0}.menu-level b{font:700 12px ui-monospace,monospace;color:#8a9a7e}.menu-level span{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.menu-level i{font-style:normal;color:#477355}.menu-level.active{border-color:#77956a;background:#edf3e4}.menu-footer{display:flex;gap:8px;flex-wrap:wrap}.menu-footer button{min-height:44px;padding:0 14px;border:1px solid #ced9c2;border-radius:12px;background:#f9faf5;color:#425d50}.body-mode-label{min-width:24px}.strength-options[hidden]{display:none!important}.stress-key{font-size:9px;color:#8a7563;margin-left:auto}.break-warning{color:#b15f4d!important}.main-menu button:focus-visible{outline:3px solid #9fbb87;outline-offset:2px}@media(max-width:520px){.main-menu{place-items:start center}.menu-shell{gap:12px}.menu-hero{padding-top:10px}.menu-logo{width:62px;height:62px;border-radius:18px}.menu-title{font-size:38px}.menu-actions{grid-template-columns:1fr}.menu-levels{grid-template-columns:1fr 1fr}.menu-section{padding:12px}.menu-level{min-height:52px;padding:8px}}
+
 </style>
 </head>
 <body>
@@ -441,12 +445,20 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></symbol>
   <symbol id="i-install" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 18v2h14v-2"/></symbol>
 </defs></svg>
+<section class="main-menu" id="main-menu" aria-label="主菜单" hidden>
+  <div class="menu-shell">
+    <div class="menu-hero"><span class="menu-logo" aria-hidden="true"></span><div><div class="menu-eyebrow">CONTRAPTION LAB · V0.6</div><h1 class="menu-title">造啥都行</h1><p class="menu-subtitle">柔性绳索会摆动，也会拉断。转轴扛不住，也会崩开。</p></div></div>
+    <div class="menu-actions"><button class="menu-primary" id="menu-continue">继续实验</button><button id="menu-first">从第一关开始</button></div>
+    <section class="menu-section" aria-labelledby="menu-level-title"><div class="menu-section-head"><strong id="menu-level-title">选择实验</strong><span class="menu-progress" id="menu-progress">0 / 6 完成</span></div><div class="menu-levels" id="menu-levels"></div></section>
+    <div class="menu-footer"><button id="menu-help">怎么玩</button><button id="menu-sound">音效：关</button><button id="menu-close">返回试验台</button></div>
+  </div>
+</section>
 <div class="app">
   <header class="topbar">
     <a class="brand" href="#" aria-label="造啥都行 首页" id="home-link">
       <span class="brand-mark"><span class="brand-ball"></span><span class="brand-plank"></span></span>
       <span class="brand-type">造啥都行<span>CONTRAPTION LAB</span></span>
-      <span class="demo-tag version-badge">V0.5</span>
+      <span class="demo-tag version-badge">V0.6</span>
     </a>
     <nav class="level-tabs" aria-label="选择关卡" id="level-tabs"></nav>
     <div class="header-actions">
@@ -475,11 +487,11 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
         </button>
         <button class="part-card" data-tool="fan" aria-pressed="false" title="风扇（快捷键 3）：沿箭头方向持续施力">
           <span class="part-art fan-art"><svg viewBox="0 0 96 58" aria-hidden="true"><rect x="20" y="6" width="43" height="43" rx="11" fill="#c6d7c0" stroke="#75936f" stroke-width="1.5"/><circle cx="41.5" cy="27.5" r="15" fill="#eef3e7" stroke="#75936f"/><g fill="#89a681"><path d="M42 26C27 7 56 11 45 26ZM43 29C61 15 58 45 44 32ZM39 30C43 52 18 36 36 28Z"/></g><circle cx="42" cy="28" r="3" fill="#57764f"/><path d="M70 19h13M69 28h18M70 37h12" stroke="#93ab87" stroke-width="2" stroke-linecap="round"/></svg></span>
-          <span class="part-copy"><strong>风扇</strong><small>借阵风，换条路线</small></span><kbd>3</kbd>
+          <span class="part-copy"><strong>风扇</strong><small>风场跟着风扇移动</small></span><kbd>3</kbd>
         </button>
 <button class="part-card" data-tool="wheel" aria-pressed="false" hidden title="轮子（4）：滚动，也能加动力"><span class="part-art"><svg viewBox="0 0 96 58" aria-hidden="true"><circle cx="46" cy="28" r="24" fill="#4b6357" stroke="#304d3d" stroke-width="2"/><circle cx="46" cy="28" r="17" fill="#e3eacb"/><path d="M46 12v32M32 20l28 16M32 36l28-16" stroke="#82986b" stroke-width="3"/><circle cx="46" cy="28" r="5" fill="#e8a16c"/></svg></span><span class="part-copy"><strong>轮子</strong><small>滚动，也能加动力</small></span><kbd>4</kbd></button>
-<button class="part-card" data-tool="axle" aria-pressed="false" hidden title="转轴（5）：两次点选，连接零件"><span class="part-art"><svg viewBox="0 0 96 58" aria-hidden="true"><g transform="rotate(-16 46 28)"><rect x="11" y="18" width="70" height="18" rx="4" fill="#e3be85" stroke="#b08a56" stroke-width="1.5"/></g><rect x="36" y="7" width="20" height="42" rx="5" fill="#c3d4b8" stroke="#819a70" stroke-width="1.5"/><circle cx="46" cy="28" r="10" fill="#f5d099" stroke="#8d7858" stroke-width="2"/><path d="M41 28h10M46 23v10" stroke="#84663f" stroke-width="2"/></svg></span><span class="part-copy"><strong>转轴</strong><small>两次点选，连接零件</small></span><kbd>5</kbd></button>
-<button class="part-card" data-tool="rope" aria-pressed="false" hidden title="绳子（6）：两端连接，只拉不推"><span class="part-art"><svg viewBox="0 0 96 58" aria-hidden="true"><path d="M15 11C20 68 69 61 78 12" fill="none" stroke="#b08658" stroke-width="5" stroke-linecap="round"/><path d="M15 11C20 68 69 61 78 12" fill="none" stroke="#e2c08c" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="15" cy="11" r="6" fill="#e8eacc" stroke="#879d75" stroke-width="2"/><circle cx="78" cy="12" r="6" fill="#e8eacc" stroke="#879d75" stroke-width="2"/></svg></span><span class="part-copy"><strong>绳子</strong><small>两端连接，只拉不推</small></span><kbd>6</kbd></button>
+<button class="part-card" data-tool="axle" aria-pressed="false" hidden title="转轴（5）：两次点选，连接零件"><span class="part-art"><svg viewBox="0 0 96 58" aria-hidden="true"><g transform="rotate(-16 46 28)"><rect x="11" y="18" width="70" height="18" rx="4" fill="#e3be85" stroke="#b08a56" stroke-width="1.5"/></g><rect x="36" y="7" width="20" height="42" rx="5" fill="#c3d4b8" stroke="#819a70" stroke-width="1.5"/><circle cx="46" cy="28" r="10" fill="#f5d099" stroke="#8d7858" stroke-width="2"/><path d="M41 28h10M46 23v10" stroke="#84663f" stroke-width="2"/></svg></span><span class="part-copy"><strong>转轴</strong><small>能转，也可能被扯断</small></span><kbd>5</kbd></button>
+<button class="part-card" data-tool="rope" aria-pressed="false" hidden title="绳子（6）：两端连接，只拉不推"><span class="part-art"><svg viewBox="0 0 96 58" aria-hidden="true"><path d="M15 11C20 68 69 61 78 12" fill="none" stroke="#b08658" stroke-width="5" stroke-linecap="round"/><path d="M15 11C20 68 69 61 78 12" fill="none" stroke="#e2c08c" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="15" cy="11" r="6" fill="#e8eacc" stroke="#879d75" stroke-width="2"/><circle cx="78" cy="12" r="6" fill="#e8eacc" stroke="#879d75" stroke-width="2"/></svg></span><span class="part-copy"><strong>绳子</strong><small>柔性摆动，过载会断</small></span><kbd>6</kbd></button>
       </div>
       <section class="inspector" id="inspector" aria-labelledby="inspector-title">
         <div class="inspector-heading"><strong id="inspector-title">零件设置</strong><span id="inspector-caption">未选中</span><button class="compact-only selection-close" id="deselect-btn" aria-label="取消选择或放置"><svg><use href="#i-close"/></svg></button></div>
@@ -489,8 +501,8 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
           <div class="angle-buttons"><button id="rotate-left" title="逆时针旋转 15°（Q）">↶ <span>15°</span></button><button id="rotate-right" title="顺时针旋转 15°（E）">↷ <span>15°</span></button><button id="delete-btn" title="删除选中零件（Delete）" aria-label="删除选中零件"><svg><use href="#i-trash"/></svg></button></div>
           <div class="property-row"><label for="property-slider" id="property-label">木板长度</label><output id="property-value">240</output></div>
           <input type="range" id="property-slider" min="140" max="340" step="10" value="240">
-          <div class="mechanic-options" id="plank-mode" hidden><span>木板</span><button id="static-btn" aria-pressed="true">固定</button><button id="dynamic-btn" aria-pressed="false">动态</button></div>
-          <div class="mechanic-options" id="wheel-drive" hidden><span>电机</span><button data-motor="-4" aria-pressed="false">← 左转</button><button data-motor="0" aria-pressed="true">自由</button><button data-motor="4" aria-pressed="false">右转 →</button></div>
+          <div class="mechanic-options" id="plank-mode" hidden><span class="body-mode-label">物理</span><button id="static-btn" aria-pressed="true">固定</button><button id="dynamic-btn" aria-pressed="false">动态</button></div>
+          <div class="mechanic-options" id="wheel-drive" hidden><span>电机</span><button data-motor="-4" aria-pressed="false">← 左转</button><button data-motor="0" aria-pressed="true">自由</button><button data-motor="4" aria-pressed="false">右转 →</button></div><div class="mechanic-options strength-options" id="joint-strength" hidden><span>强度</span><button data-strength="0.55" aria-pressed="false">脆</button><button data-strength="1" aria-pressed="true">标准</button><button data-strength="1.7" aria-pressed="false">强韧</button></div>
           <div class="mechanic-options assembly-controls" id="assembly-controls" hidden><button id="move-group-btn" aria-pressed="true">整组移动</button><button id="detach-btn">拆除连接</button></div>
           <p class="property-tip" id="property-tip">长一点，也许刚好接得住。</p>
         </div>
@@ -501,7 +513,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
       <div class="lab-topbar">
         <div class="stage-status"><span class="status-pill" id="status-pill"><span></span><b id="status-text">编辑中</b></span><span class="stage-label" id="stage-label">试验台 01</span><span class="compact-only mobile-clock" id="mobile-time">0.00s</span></div>
         <div class="stage-tools"><span class="part-count" title="已使用的零件数量"><b id="part-count">1</b><span> / 8</span></span><span class="tool-divider"></span><button class="icon-button" id="undo-btn" aria-label="撤销" title="撤销（Ctrl / ⌘ + Z）"><svg><use href="#i-undo"/></svg></button><button class="icon-button" id="redo-btn" aria-label="重做" title="重做（Ctrl / ⌘ + Shift + Z）"><svg><use href="#i-redo"/></svg></button><button class="icon-button toggle-button" id="path-btn" aria-label="显示运动轨迹" title="显示运动轨迹" aria-pressed="true"><svg><use href="#i-path"/></svg></button><button class="icon-button toggle-button" id="grid-btn" aria-label="显示辅助网格" title="显示辅助网格" aria-pressed="true"><svg><use href="#i-grid"/></svg></button><button class="icon-button" id="clear-btn" aria-label="清空零件" title="清空零件（可以撤销）"><svg><use href="#i-trash"/></svg></button><button class="icon-button compact-only" id="more-btn" aria-label="更多试验台选项" aria-expanded="false" aria-controls="more-menu"><svg><use href="#i-more"/></svg></button></div>
-        <div class="mobile-menu compact-only" id="more-menu" hidden><button id="mobile-path-btn" aria-pressed="true"><svg><use href="#i-path"/></svg>显示运动轨迹<span>开</span></button><button id="mobile-grid-btn" aria-pressed="true"><svg><use href="#i-grid"/></svg>显示辅助网格<span>开</span></button><button id="update-app-btn"><svg><use href="#i-reset"/></svg>检查更新<span id="app-version">V0.5.0</span></button><button id="install-app-btn"><svg><use href="#i-install"/></svg>添加到主屏幕<span>像 App 一样打开</span></button><button id="mobile-clear-btn"><svg><use href="#i-trash"/></svg>清空所有零件<span>可撤销</span></button></div>
+        <div class="mobile-menu compact-only" id="more-menu" hidden><button id="mobile-path-btn" aria-pressed="true"><svg><use href="#i-path"/></svg>显示运动轨迹<span>开</span></button><button id="mobile-grid-btn" aria-pressed="true"><svg><use href="#i-grid"/></svg>显示辅助网格<span>开</span></button><button id="update-app-btn"><svg><use href="#i-reset"/></svg>检查更新<span id="app-version">V0.6.0</span></button><button id="install-app-btn"><svg><use href="#i-install"/></svg>添加到主屏幕<span>像 App 一样打开</span></button><button id="mobile-clear-btn"><svg><use href="#i-trash"/></svg>清空所有零件<span>可撤销</span></button></div>
       </div>
       <div class="board-wrap" id="board-wrap">
         <canvas id="board" tabindex="0" aria-label="物理游戏画布。点选零件，再点画布放置；拖动零件移动；双指缩放和平移。选中后可用下方按钮旋转。电脑也可用 Q、E 旋转。" aria-describedby="canvas-help">你的浏览器不支持 Canvas。请使用支持 Canvas 的现代浏览器。</canvas>
@@ -529,7 +541,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   <div class="eyebrow"><span class="tiny-dot"></span>发明家入门指南</div>
   <h2>造得离谱，也能靠谱。</h2><p class="dialog-lead">目标只有一个：让橙色小球落进绿色篮筐，并停留片刻。</p>
   <div class="help-steps"><div><b>01</b><p><strong>搭建你的机关</strong>选择零件，再点画布放置；也可以直接把零件拖进去。点同一零件按钮可取消放置。</p></div><div><b>02</b><p><strong>给它一点调整</strong>拖动移动，用下方按钮旋转和删除，长按角度按钮可连续旋转。电脑也可用 Q / E 和 Delete。</p></div><div><b>03</b><p><strong>让物理接手</strong>点「开始实验」观看。手机上再点同一按钮即可暂停或继续；「返回编辑」会保留上一轮轨迹。电脑也可按空格或 R。</p></div></div>
-  <div class="help-note"><strong>机械连接怎么做</strong><p>转轴：先点轮子或动态木板上的位置，再点另一个零件；第二次点空白处则钉在第一个点。绳子：依次点两个端点，点零件就跟着它走，点空白处则固定。至少一端连接零件。选中零件后可“拆除连接”；删除零件也会删除与它相连的连接。所有操作支持撤销。点轴心可选中转轴；点轮子边缘可选中轮子。</p><strong>关于 V0.5.0</strong><p>V0.5「机械时代」支持动态木板、轮子、转轴和绳子。木板默认固定，选中后可切换动态；轮子可选自由轮或左右电机。电机需要连接转轴才能驱动。弹簧和风扇仍是固定的主动机关。绳子是无质量拉力连接，不会与地形缠绕；转轴组件内部不互相碰撞。本作使用游戏化物理，不用于工程计算。</p><p>触屏技巧：双指捏合缩放、双指或空白处拖动平移。手机编辑时会自动计算最佳取景，让起点和终点保持可见并把地面贴在场景底部；开始实验后镜头会跟随小球，接近画面边缘会提前追踪，接近终点时自动把终点带入视野。手动拖动或缩放会暂时接管镜头；点「全景」可查看完整试验台。游戏不会上传布局；慢放不改变物理参数。</p></div>
+  <div class="help-note"><strong>机械连接怎么做</strong><p>转轴：先点一个动态零件，再点另一个零件或空白固定点。绳子：依次点两个端点。V0.6 的绳子由多段质量节点组成，会自然摆动和下垂；转轴与绳子都有“脆 / 标准 / 强韧”三档强度，受力持续超过极限就会断裂。</p><strong>关于 V0.6.0</strong><p>木板、弹簧、风扇和轮子都能切换“固定 / 动态”。动态风扇会被碰撞和重力带走，风场跟着它移动；动态弹簧会产生后坐。轮子固定时不会滚动，切回动态后可用电机。断裂属于实验运行状态，不会破坏编辑布局，返回编辑即可重来。</p><p>触屏技巧：双指捏合缩放、双指或空白处拖动平移。手机编辑时会自动计算最佳取景，让起点和终点保持可见并把地面贴在场景底部；开始实验后镜头会跟随小球，接近画面边缘会提前追踪，接近终点时自动把终点带入视野。手动拖动或缩放会暂时接管镜头；点「全景」可查看完整试验台。游戏不会上传布局；慢放不改变物理参数。</p></div>
   <button class="primary-button dialog-start" id="help-start">懂了，开始发明 <svg><use href="#i-arrow"/></svg></button>
 </dialog>
 
@@ -681,11 +693,11 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
 </script>
 <script>
 /*
- * Contraption Lab v0.5 — self-contained mechanical solver.
+ * Contraption Lab v0.6 — self-contained mechanical solver.
  * Units: logical pixels, seconds, arbitrary consistent mass units; dt = 1/240 s.
  * Circle/OBB + SAT contacts, sequential impulses, Coulomb friction,
- * revolute anchors, tension-only massless ropes. Game physics, not engineering.
- * Static-only layouts retain the unchanged v0.4.1 solver for compatibility.
+ * revolute anchors and a segmented, mass-bearing tension rope.
+ * Every physical part can be fixed or dynamic. Game physics, not engineering.
  */
 (function(root,factory){
  if(typeof module==='object'&&module.exports)module.exports=factory(require('./legacy-physics.js'));
@@ -694,14 +706,19 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
 'use strict';
 const {W,H,DT,G,R,DEG,clamp,clone}=L;
 const isLink=p=>p.type==='axle'||p.type==='rope';
-const isDynamic=p=>p.type==='wheel'||(p.type==='plank'&&p.dynamic===true);
+const isDynamic=p=>!!p&&!isLink(p)&&p.dynamic===true;
+const BASE_BREAK_FORCE={rope:9000,axle:180000};
+const strengthOf=p=>clamp(Number.isFinite(p.strength)?p.strength:1,.5,2);
 const cross=(a,b)=>a.x*b.y-a.y*b.x;
 const dot=(a,b)=>a.x*b.x+a.y*b.y;
 const sub=(a,b)=>({x:a.x-b.x,y:a.y-b.y});
 const add=(a,b)=>({x:a.x+b.x,y:a.y+b.y});
 const mul=(a,s)=>({x:a.x*s,y:a.y*s});
 const rot=(p,a)=>({x:p.x*Math.cos(a)-p.y*Math.sin(a),y:p.x*Math.sin(a)+p.y*Math.cos(a)});
-function part(type,x,y,angle=0,extra={}){return Object.assign(L.part(type,x,y,angle),{dynamic:false,radius:34,motor:0},extra);}
+function part(type,x,y,angle=0,extra={}){
+ const defaults={dynamic:type==='wheel',radius:34,motor:0};
+ return Object.assign(L.part(type,x,y,angle),defaults,extra);
+}
 function dimensions(p){return p.type==='wheel'?[p.radius*2,p.radius*2]:isLink(p)?[20,20]:L.dimensions(p);}
 function hitPart(x,y,p,margin=9){if(p.type==='wheel')return Math.hypot(x-p.x,y-p.y)<=p.radius+margin;const q=L.localPoint(x,y,p),[w,h]=dimensions(p);return Math.abs(q.x)<=w/2+margin&&Math.abs(q.y)<=h/2+margin;}
 function anchorPoint(e,items){
@@ -713,16 +730,21 @@ function anchorPoint(e,items){
 function endpoint(p,point){return p?Object.assign({body:p.id},L.localPoint(point.x,point.y,p)):{body:null,x:point.x,y:point.y};}
 function connection(type,a,b,items,extra={}){
  const A=anchorPoint(a,items),B=anchorPoint(b,items);
- return part(type,(A.x+B.x)/2,(A.y+B.y)/2,0,{a:clone(a),b:clone(b),length:type==='rope'?Math.max(24,Math.hypot(A.x-B.x,A.y-B.y)):0,...extra});
+ return part(type,(A.x+B.x)/2,(A.y+B.y)/2,0,{a:clone(a),b:clone(b),length:type==='rope'?Math.max(24,Math.hypot(A.x-B.x,A.y-B.y)):0,strength:1,...extra});
 }
 function bodyFrom(p,ball=false){
  const circle=ball||p.type==='wheel',r=ball?R:p.radius,[w,h]=circle?[r*2,r*2]:dimensions(p);
  const fixed=!ball&&!isDynamic(p),mass=ball?1:Math.max(.2,(circle?Math.PI*r*r:w*h)*.001);
  return {id:p.id,part:p,x:p.x,y:p.y,a:p.angle||0,vx:0,vy:0,omega:0,circle,r:circle?r:0,w,h,
  invM:fixed?0:1/mass,invI:fixed?0:1/(circle?mass*r*r/2:mass*(w*w+h*h)/12),
- friction:circle&&!ball?.85:ball?.24:.48,restitution:ball?.08:.03,group:null};
+ friction:circle&&!ball?.85:ball?.24:.48,restitution:ball?.08:.03,group:null,noCollide:false};
 }
-function rectBody(r,id){return {id,x:r.x,y:r.y,a:r.a||0,w:r.w,h:r.h,r:0,circle:false,invM:0,invI:0,vx:0,vy:0,omega:0,friction:.65,restitution:.03,part:{type:'terrain'}};}
+function ropeParticle(id,x,y){
+ const mass=.11;
+ return {id,part:{type:'rope-node'},x,y,a:0,vx:0,vy:0,omega:0,circle:true,r:3.5,w:7,h:7,
+  invM:1/mass,invI:0,friction:0,restitution:0,group:null,noCollide:true,ropeNode:true};
+}
+function rectBody(r,id){return {id,x:r.x,y:r.y,a:r.a||0,w:r.w,h:r.h,r:0,circle:false,invM:0,invI:0,vx:0,vy:0,omega:0,friction:.65,restitution:.03,part:{type:'terrain'},noCollide:false};}
 function vertices(b){return [[-1,-1],[1,-1],[1,1],[-1,1]].map(([x,y])=>add(b,rot({x:x*b.w/2,y:y*b.h/2},b.a)));}
 function inside(p,b){const q=rot(sub(p,b),-b.a);return Math.abs(q.x)<=b.w/2+.02&&Math.abs(q.y)<=b.h/2+.02;}
 function boxContact(a,b){
@@ -766,7 +788,7 @@ function shift(b,r,j){if(!b.invM)return;b.x+=j.x*b.invM;b.y+=j.y*b.invM;b.a+=cro
 function getContacts(sim){
  const out=[];
  for(let i=0;i<sim.bodies.length;i++)for(let j=i+1;j<sim.bodies.length;j++){
-  const a=sim.bodies[i],b=sim.bodies[j];if(!a.invM&&!b.invM)continue;
+  const a=sim.bodies[i],b=sim.bodies[j];if(a.noCollide||b.noCollide)continue;if(!a.invM&&!b.invM)continue;
   if(a.group&&a.group===b.group)continue;
   const ra=a.circle?a.r:Math.hypot(a.w,a.h)/2,rb=b.circle?b.r:Math.hypot(b.w,b.h)/2;
   if(Math.abs(a.x-b.x)>ra+rb||Math.abs(a.y-b.y)>ra+rb)continue;
@@ -795,43 +817,105 @@ function solveJoint(j,position=false,dt=DT){
  if(sum===0)return;const apply=position?shift:impulse;
  if(j.part.type==='rope'){
   const dist=Math.hypot(delta.x,delta.y);if(dist<1e-6)return;const n=mul(delta,1/dist),error=dist-j.part.length;
-  if(error<-.2)return; // Loose ropes cannot push.
+  // Rope segments are allowed a tiny stretch and bend freely at their intermediate nodes.
+  const slop=j.softRope?Math.max(.35,j.part.length*.018):.2;
+  if(error<slop)return; // Loose ropes cannot push.
   const k=sum+cross(rA,n)**2*a.invI+cross(rB,n)**2*b.invI;
-  const mag=position?Math.min(0,-Math.max(0,error)*.65/k):Math.min(0,-(dot(v,n)+Math.max(0,error)*.08/dt)/k);
+  const posGain=j.softRope?.20:.65,velGain=j.softRope?.020:.08;
+  const mag=position?Math.min(0,-Math.max(0,error-slop)*posGain/k):Math.min(0,-(dot(v,n)+Math.max(0,error-slop)*velGain/dt)/k);
+  if(!position)j.forceSample=Math.max(j.forceSample||0,Math.abs(mag)/dt);
   apply(a,rA,mul(n,mag));apply(b,rB,mul(n,-mag));
  }else{
   const xx=sum+rA.y*rA.y*a.invI+rB.y*rB.y*b.invI,yy=sum+rA.x*rA.x*a.invI+rB.x*rB.x*b.invI,xy=-rA.x*rA.y*a.invI-rB.x*rB.y*b.invI,d=xx*yy-xy*xy;
   if(d<1e-10)return;const C=position?mul(delta,.6):add(v,mul(delta,.06/dt)),J={x:(-yy*C.x+xy*C.y)/d,y:(xy*C.x-xx*C.y)/d};
+  if(!position)j.forceSample=Math.max(j.forceSample||0,Math.hypot(J.x,J.y)/dt);
   apply(a,rA,J);apply(b,rB,mul(J,-1));
  }
 }
+function ropePointOnLine(A,B,t){return {x:A.x+(B.x-A.x)*t,y:A.y+(B.y-A.y)*t};}
+function buildRope(sim,p){
+ const A=anchorPoint(p.a,sim.items),B=anchorPoint(p.b,sim.items),distance=Math.hypot(B.x-A.x,B.y-A.y);
+ const total=Math.max(distance,p.length||distance,24),segments=clamp(Math.ceil(total/30),4,24),segLength=total/segments;
+ const nodes=[];
+ for(let i=1;i<segments;i++){
+  const q=ropePointOnLine(A,B,i/segments),node=ropeParticle(`$rope-${p.id}-${i}`,q.x,q.y);
+  nodes.push(node);sim.bodies.push(node);
+ }
+ const bodyA=p.a.body?sim.bodyMap[p.a.body]:null,bodyB=p.b.body?sim.bodyMap[p.b.body]:null;
+ let prevBody=bodyA,prevAnchor=p.a;
+ for(let i=0;i<segments;i++){
+  const nextBody=i===segments-1?bodyB:nodes[i];
+  const nextAnchor=i===segments-1?p.b:{x:0,y:0};
+  const segmentPart={type:'rope',length:segLength,a:prevBody?clone(prevAnchor):clone(prevAnchor),b:nextBody?clone(nextAnchor):clone(nextAnchor)};
+  // Internal particle anchors are local zero; ground anchors stay in world coordinates.
+  if(prevBody&&prevBody.ropeNode)segmentPart.a={x:0,y:0};
+  if(nextBody&&nextBody.ropeNode)segmentPart.b={x:0,y:0};
+  sim.joints.push({part:segmentPart,bodyA:prevBody,bodyB:nextBody,softRope:true,ropeId:p.id,linkId:p.id,segmentIndex:i,forceSample:0});
+  prevBody=nextBody;prevAnchor={x:0,y:0};
+ }
+ sim.ropeNodes[p.id]=nodes;
+}
 function createMechanical(level,items){
- const copied=clone(items),sim={level:clone(level),items:copied,mechanical:true,time:0,steps:0,state:'running',goalHold:0,idle:0,reason:'',events:[],cooldowns:Object.create(null),path:[],impacts:0,maxSpeed:0,bodies:[],bodyMap:Object.create(null),joints:[]};
+ const copied=clone(items),sim={level:clone(level),items:copied,mechanical:true,time:0,steps:0,state:'running',goalHold:0,idle:0,reason:'',events:[],cooldowns:Object.create(null),path:[],impacts:0,maxSpeed:0,bodies:[],bodyMap:Object.create(null),joints:[],ropeNodes:Object.create(null),linkDamage:Object.create(null)};
  const bb=bodyFrom({id:'$ball',type:'ball',...level.start},true);bb.vx=level.start.vx||0;sim.bodies.push(bb);sim.ballBody=bb;
  level.terrain.forEach((t,i)=>sim.bodies.push(rectBody(t,'$terrain-'+i)));
  L.goalRects(level.goal).forEach((t,i)=>sim.bodies.push(rectBody(t,'$goal-'+i)));
  for(const p of copied){if(isLink(p))continue;const b=bodyFrom(p);sim.bodyMap[p.id]=b;sim.bodies.push(b);}
- for(const p of copied){if(!isLink(p)||!p.a||!p.b)continue;if((p.a.body&&!sim.bodyMap[p.a.body])||(p.b.body&&!sim.bodyMap[p.b.body]))continue;sim.joints.push({part:p,bodyA:sim.bodyMap[p.a.body],bodyB:sim.bodyMap[p.b.body]});}
- // Axle-linked assemblies ignore self-collision; they still collide with the ball and ground.
- const parent=Object.create(null);for(const id in sim.bodyMap)parent[id]=id;
- const find=id=>{while(parent[id]!==id)id=parent[id];return id;};
- for(const j of sim.joints)if(j.part.type==='axle'&&j.bodyA&&j.bodyB)parent[find(j.bodyA.id)]=find(j.bodyB.id);
- for(const id in sim.bodyMap)sim.bodyMap[id].group=find(id);
+ // Axles are direct revolute constraints. Ropes are expanded into a flexible particle chain.
+ for(const p of copied){
+  if(!isLink(p)||!p.a||!p.b)continue;
+  if((p.a.body&&!sim.bodyMap[p.a.body])||(p.b.body&&!sim.bodyMap[p.b.body]))continue;
+  if(p.type==='rope')buildRope(sim,p);else sim.joints.push({part:p,bodyA:sim.bodyMap[p.a.body],bodyB:sim.bodyMap[p.b.body],linkId:p.id,forceSample:0});
+ }
+ rebuildGroups(sim);
  sync(sim);return sim;
+}
+function rebuildGroups(sim){
+ // Axle-linked assemblies ignore self-collision while the axle is intact.
+ const parent=Object.create(null);for(const id in sim.bodyMap)parent[id]=id;
+ const find=id=>{while(parent[id]!==id){parent[id]=parent[parent[id]];id=parent[id];}return id;};
+ for(const j of sim.joints)if(j.part.type==='axle'&&j.bodyA&&j.bodyB&&parent[j.bodyA.id]&&parent[j.bodyB.id])parent[find(j.bodyA.id)]=find(j.bodyB.id);
+ for(const id in sim.bodyMap)sim.bodyMap[id].group=find(id);
+}
+function breakLink(sim,p,joint,force){
+ if(p.broken)return;
+ const d=jointData(joint),mid={x:(d.A.x+d.B.x)/2,y:(d.A.y+d.B.y)/2};
+ p.broken=true;p.breakX=mid.x;p.breakY=mid.y;p.breakForce=force;p.stress=1;p.breakIndex=joint.segmentIndex??0;
+ if(p.type==='rope')sim.joints=sim.joints.filter(j=>j!==joint);
+ else{sim.joints=sim.joints.filter(j=>j.linkId!==p.id);rebuildGroups(sim);}
+ sim.events.push({type:'break',linkType:p.type,id:p.id,x:mid.x,y:mid.y,force});
+}
+function applyBreakage(sim,dt){
+ for(const p of sim.items.filter(isLink)){
+  if(p.broken){p.stress=0;continue;}
+  const joints=sim.joints.filter(j=>j.linkId===p.id);if(!joints.length)continue;
+  let joint=joints[0],force=0;for(const j of joints)if((j.forceSample||0)>force){force=j.forceSample||0;joint=j;}
+  const threshold=BASE_BREAK_FORCE[p.type]*strengthOf(p),ratio=force/threshold;
+  p.stress=clamp(ratio,0,2.5);
+  let damage=sim.linkDamage[p.id]||0;
+  if(ratio>.78)damage+=(ratio-.72)*dt*2.6;else damage=Math.max(0,damage-dt*.9);
+  if(ratio>2.15)damage=1;sim.linkDamage[p.id]=damage;
+  if(damage>=1)breakLink(sim,p,joint,force);
+ }
 }
 function sync(sim){
  const b=sim.ballBody;sim.ball={x:b.x,y:b.y,vx:b.vx,vy:b.vy,r:b.r,rotation:b.a,omega:b.omega};
  for(const p of sim.items){const b=sim.bodyMap[p.id];if(b){p.x=b.x;p.y=b.y;p.angle=b.a;}}
- for(const p of sim.items.filter(isLink)){const A=anchorPoint(p.a,sim.items),B=anchorPoint(p.b,sim.items);p.x=(A.x+B.x)/2;p.y=(A.y+B.y)/2;}
+ for(const p of sim.items.filter(isLink)){
+  const A=anchorPoint(p.a,sim.items),B=anchorPoint(p.b,sim.items);p.x=(A.x+B.x)/2;p.y=(A.y+B.y)/2;
+  if(p.type==='rope')p.ropePoints=[A,...(sim.ropeNodes[p.id]||[]).map(n=>({x:n.x,y:n.y})),B];
+ }
 }
 function stepMechanical(sim,dt){
  if(sim.state!=='running')return sim;sim.time+=dt;sim.steps++;sim.events=[];
+ // Keep active force fields aligned with dynamic fans/springs from the prior sub-step.
+ sync(sim);
  for(const b of sim.bodies){
   if(!b.invM)continue;b.vy+=G*dt;
   for(const p of sim.items){if(p.type!=='fan')continue;const q=L.localPoint(b.x,b.y,p);if(q.x<=18||q.x>=470||Math.abs(q.y)>=75)continue;
    const strength=p.power*(1-.3*q.x/470)*(1-.4*(q.y/75)**2);b.vx+=Math.cos(p.angle)*strength*dt;b.vy+=Math.sin(p.angle)*strength*dt;
   }
-  const drag=Math.exp(-.035*dt);b.vx*=drag;b.vy*=drag;b.omega*=Math.exp(-.015*dt);
+  const drag=Math.exp(-(b.ropeNode?.12:.035)*dt);b.vx*=drag;b.vy*=drag;b.omega*=Math.exp(-.015*dt);
   if(b.part.type==='wheel'&&b.part.motor){
    const target=b.part.motor,linked=sim.joints.find(j=>j.part.type==='axle'&&(j.bodyA===b||j.bodyB===b)),other=linked?(linked.bodyA===b?linked.bodyB:linked.bodyA):null;
    const rel=b.omega-(other?.omega||0),k=b.invI+(other?.invI||0),torque=linked?clamp((target-rel)/(k||1),-9000*dt,9000*dt):0;
@@ -845,11 +929,15 @@ function stepMechanical(sim,dt){
   const n={x:Math.sin(p.angle),y:-Math.cos(p.angle)},vn=ball.vx*n.x+ball.vy*n.y;
   if(dot(c.n,n)>.65&&vn< -12&&sim.time-(sim.cooldowns[p.id]??-10)>.16){
    const tangent=ball.vx*Math.cos(p.angle)+ball.vy*Math.sin(p.angle);ball.vx=tangent*.5*Math.cos(p.angle)+n.x*p.power;ball.vy=tangent*.5*Math.sin(p.angle)+n.y*p.power;
+   // Dynamic springs recoil a little instead of acting like an infinitely heavy launcher.
+   if(box.invM){const kick=mul(n,-Math.min(p.power*.24,230));box.vx+=kick.x*box.invM;box.vy+=kick.y*box.invM;}
    sim.cooldowns[p.id]=sim.time;sim.events.push({type:'spring',x:ball.x,y:ball.y,power:p.power,id:p.id});
   }
  }
  const contacts=getContacts(sim);
+ for(const j of sim.joints)j.forceSample=0;
  for(let i=0;i<12;i++){for(const j of sim.joints)solveJoint(j,false,dt);for(const c of contacts)solveContact(c);}
+ applyBreakage(sim,dt);
  for(let i=0;i<5;i++){
   for(const c of getContacts(sim)){const {a,b,n,rA,rB}=c,k=a.invM+b.invM+cross(rA,n)**2*a.invI+cross(rB,n)**2*b.invI;if(k<1e-10)continue;
    const v=Math.max(0,c.depth-.08)*.35/k;shift(a,rA,mul(n,v));shift(b,rB,mul(n,-v));}
@@ -864,13 +952,12 @@ function stepMechanical(sim,dt){
  if(sim.goalHold>=.5){sim.state='won';sim.events.push({type:'win',x:b.x,y:b.y});}
  else if(b.y>H+65||b.x< -80||b.x>W+80){sim.state='lost';sim.reason='小球溜走了。检查轮子方向、接球坡度或绳长。';}
  else if(sim.time>32){sim.state='lost';sim.reason='这次没能抵达。调整连接或动力，再试一次。';}
- // A stationary ball may still be collected by an approaching machine.
  return sim;
 }
 function create(level,items){return items.some(p=>isLink(p)||isDynamic(p))?createMechanical(level,items):L.create(level,items);}
 function step(sim,dt=DT){return sim.mechanical?stepMechanical(sim,dt):L.step(sim,dt);}
 function run(level,items,seconds=34){const s=create(level,items);while(s.state==='running'&&s.time<seconds)step(s);return s;}
-return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,connection,create,step,run,mechanicalVersion:'0.5.0'};
+return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,connection,strengthOf,create,step,run,mechanicalVersion:'0.6.0'};
 });
 
 </script>
@@ -975,7 +1062,7 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
   const camera = { zoom: 1, cx: P.W / 2, cy: P.H / 2, follow: false, preset: 'edit' };
   const pointers = new Map();
   let pinch = null, gestureConsumed = false, needsRender = true, clockPaint = 0;
-  let rotationTimer = null, rotationHeld = false;
+  let rotationTimer = null, rotationHeld = false, suppressInspectorUntil = 0, suppressClickUntil = 0;
   const level = () => LEVELS[levelIndex];
   const editing = () => mode === 'edit';
   const snapshot = () => ({ items: P.clone(items), example: usedExample });
@@ -992,7 +1079,7 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
       if(![p.x,p.y,p.angle,p.length,p.power].every(Number.isFinite))return null;
       const q=P.part(p.type,P.clamp(p.x,0,P.W),P.clamp(p.y,0,P.H),normalize(p.angle),{
         id:p.id,length:P.clamp(p.length,140,340),power:P.clamp(p.power,p.type==='spring'?450:400,p.type==='spring'?1050:2400),
-        dynamic:p.type==='plank'&&p.dynamic===true,radius:Number.isFinite(p.radius)?P.clamp(p.radius,24,60):34,motor:Number.isFinite(p.motor)?P.clamp(p.motor,-8,8):0
+        dynamic:p.type==='wheel'?p.dynamic!==false:p.dynamic===true,radius:Number.isFinite(p.radius)?P.clamp(p.radius,24,60):34,motor:Number.isFinite(p.motor)?P.clamp(p.motor,-8,8):0
       });
       if(q.type!=='plank')q.length=q.type==='spring'?88:52;out.push(q);
     }
@@ -1000,7 +1087,7 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
       const valid=e=>e&&[e.x,e.y].every(Number.isFinite)&&Math.abs(e.x)<2500&&Math.abs(e.y)<2500&&(e.body===null||out.some(q=>q.id===e.body&&!P.isLink(q)));
       if(!valid(p.a)||!valid(p.b)||p.a.body===p.b.body)continue;
       if(p.type==='rope'&&!Number.isFinite(p.length))continue;
-      out.push(P.connection(p.type,p.a,p.b,out,{id:p.id,length:p.type==='rope'?P.clamp(p.length,24,1100):0}));
+      out.push(P.connection(p.type,p.a,p.b,out,{id:p.id,length:p.type==='rope'?P.clamp(p.length,24,1100):0,strength:P.clamp(Number.isFinite(p.strength)?p.strength:1,.5,2)}));
     }
     return out;
   }
@@ -1054,7 +1141,7 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
     if(!editing()||!point.inside||!['axle','rope'].includes(activeTool))return;
     const type=activeTool,p=bodyAt(point,linkPending?.body);
     if(!linkPending){
-      if(type==='axle'&&(!p||!P.isDynamic(p))){toast('先点轮子或动态木板；木板可在设置里切换为动态。');return;}
+      if(type==='axle'&&(!p||!P.isDynamic(p))){toast('先点一个动态零件；木板、弹簧、风扇和轮子都能切换为动态。');return;}
       linkPending=pickEndpoint(p,point);updateUI();return;
     }
     const a=linkPending,b=type==='axle'?P.endpoint(p,P.anchorPoint(a,items)):pickEndpoint(p,point);
@@ -1065,7 +1152,7 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
     mutate(()=>{items.push(joint);selectedId=joint.id;activeTool=ghost=linkPending=null;},type==='axle'?(b.body?'转轴已连接：零件可以相对旋转。':'转轴已钉住：零件可以绕它旋转。'):'绳子已连接：下方可调整最大长度。');
   }
   function save() {
-    refreshLinks();storage.version='0.5.0';
+    refreshLinks();storage.version='0.6.0';
     storage.drafts[level().id] = { parts: P.clone(items), example: usedExample };
     storage.level = levelIndex;
     try { localStorage.setItem(KEY, JSON.stringify(storage)); storageOK = true; }
@@ -1134,6 +1221,7 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
     if(['axle','rope'].includes(activeTool)){connectAt(point);return;}
     const p = clampPart({ ...ghost, id: P.part(activeTool, 0, 0).id, x: point.x, y: point.y });
     mutate(() => { items.push(p); selectedId = p.id; activeTool = ghost = null; });
+    suppressInspectorUntil=performance.now()+70;
     canvas.focus({ preventScroll: true });
   }
   function rotateSelected(degrees) {
@@ -1202,10 +1290,11 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
     if (!p) return;
     $('angle-value').textContent = Math.round(p.angle / P.DEG) + '°';
     const slider = $('property-slider');
-    slider.hidden=p.type==='axle';$('plank-mode').hidden=p.type!=='plank';$('wheel-drive').hidden=p.type!=='wheel';
+    slider.hidden=p.type==='axle';$('plank-mode').hidden=P.isLink(p);$('wheel-drive').hidden=p.type!=='wheel';$('joint-strength').hidden=!P.isLink(p);
     $('assembly-controls').hidden=P.isLink(p)||!!activeTool;
     $('dynamic-btn').setAttribute('aria-pressed',String(p.dynamic===true));$('static-btn').setAttribute('aria-pressed',String(!p.dynamic));
-    document.querySelectorAll('[data-motor]').forEach(b=>{b.setAttribute('aria-pressed',String(Number(b.dataset.motor)===p.motor));b.disabled=!editing();});
+    document.querySelectorAll('[data-motor]').forEach(b=>{b.setAttribute('aria-pressed',String(Number(b.dataset.motor)===p.motor));b.disabled=!editing()||!p.dynamic;});
+    document.querySelectorAll('[data-strength]').forEach(b=>{b.setAttribute('aria-pressed',String(Math.abs(Number(b.dataset.strength)-(p.strength||1))<.02));b.disabled=!editing();});
     $('move-group-btn').setAttribute('aria-pressed',String(groupMove));
     $('detach-btn').disabled=!editing()||!items.some(j=>P.isLink(j)&&(j.a.body===p.id||j.b.body===p.id));
     if (p.type === 'plank') {
@@ -1223,16 +1312,20 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
     }
     if(p.type==='wheel'){
       $('property-label').textContent='轮子半径';slider.min=24;slider.max=60;slider.step=2;slider.value=p.radius;
-      $('property-value').textContent=p.radius;$('property-tip').textContent='自由轮不主动驱动；电机需要连接转轴。';
+      $('property-value').textContent=p.radius;$('property-tip').textContent=p.dynamic?'动态轮子会滚动；电机需要连接完整转轴。':'固定轮子不会滚动或驱动。';
     }else if(p.type==='rope'){
       $('property-label').textContent='绳子最大长度';slider.min=24;slider.max=1100;slider.step=1;slider.value=p.length;
-      $('property-value').textContent=Math.round(p.length);$('property-tip').textContent='只拉不推；绳子不会与地形缠绕。';
+      $('property-value').textContent=Math.round(p.length);$('property-tip').textContent='柔性绳会摆动、下垂；持续超载会从受力最大的绳段拉断。';
     }else if(p.type==='axle'){
       $('property-label').textContent='转轴连接';$('property-value').textContent=p.a.body&&p.b.body?'零件 ↔ 零件':'零件 ↔ 固定点';
-      $('property-tip').textContent='连接点不分离，零件仍可绕轴旋转。';
+      $('property-tip').textContent='转轴允许旋转，但持续超载会断裂。';
     }
-    if(p.type==='plank')$('property-tip').textContent=p.dynamic?'动态木板会下落、受力和转动。':'固定木板不会动，切到动态即可用于造车。';
+    if(p.type==='plank')$('property-tip').textContent=p.dynamic?'动态木板会下落、受力和转动。':'固定木板不会动。';
+    if(p.type==='spring')$('property-tip').textContent=p.dynamic?'动态弹簧会受重力、碰撞并产生后坐。':'固定弹簧只负责弹射，不会被撞走。';
+    if(p.type==='fan')$('property-tip').textContent=p.dynamic?'动态风扇会移动和旋转，风场跟着它走。':'固定风扇的位置不会改变。';
+    $('plank-mode').querySelector('span').textContent=P.isLink(p)?'物理':'物理';
     ['rotate-left','rotate-right','delete-btn','property-slider','static-btn','dynamic-btn','move-group-btn'].forEach(id=>$(id).disabled=!editing());
+    $('static-btn').disabled=$('dynamic-btn').disabled=!editing()||P.isLink(p);
     $('rotate-left').disabled=$('rotate-right').disabled=!editing()||P.isLink(p);
     $('angle-value').textContent=P.isLink(p)?'连接件':Math.round(p.angle/P.DEG)+'°';
   }
@@ -1545,10 +1638,11 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
     if (!editing() || !selected()) return;
     e.preventDefault(); rotateSelected(e.deltaY > 0 ? 5 : -5);
   }, { passive: false });
+  document.addEventListener('click',e=>{if(performance.now()<suppressClickUntil&&e.target.closest('#selection-controls')){e.preventDefault();e.stopImmediatePropagation();}},true);
   document.querySelectorAll('.part-card').forEach(card => {
     card.addEventListener('pointerdown', e => {
       if (!editing() || e.button !== 0 || cardDrag) return;
-      e.preventDefault(); chooseTool(card.dataset.tool);
+      e.preventDefault(); suppressClickUntil=performance.now()+80; chooseTool(card.dataset.tool);
       if (!activeTool) return;
       cardDrag = { pointerId: e.pointerId, x: e.clientX, y: e.clientY, moved: false, touch: e.pointerType === 'touch' };
       card.setPointerCapture(e.pointerId);
@@ -1597,13 +1691,23 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
   compactQuery.addEventListener('change', syncLayout);
   window.addEventListener('blur', () => { cancelInteractions(); updateUI(); });
 
+  function refreshMainMenu(){
+    const host=$('menu-levels');if(!host)return;host.textContent='';
+    LEVELS.forEach((l,i)=>{const b=document.createElement('button');b.type='button';b.className='menu-level'+(i===levelIndex?' active':'');const done=!!storage.wins[l.id];b.innerHTML=`<b>${String(i+1).padStart(2,'0')}</b><span>${l.name}</span><i>${done?'✓':''}</i>`;b.onclick=()=>{loadLevel(i);closeMainMenu();};host.appendChild(b);});
+    $('menu-progress').textContent=`${LEVELS.filter(l=>storage.wins[l.id]).length} / ${LEVELS.length} 完成`;
+    $('menu-continue').textContent=`继续 · ${String(levelIndex+1).padStart(2,'0')} ${level().name}`;
+  }
+  function openMainMenu(){if(mode==='running')togglePause();if(document.body.classList.contains('focus-mode'))setFocus(false);refreshMainMenu();$('main-menu').hidden=false;document.body.classList.add('menu-open');requestAnimationFrame(()=>$('menu-continue').focus({preventScroll:true}));}
+  function closeMainMenu(){$('main-menu').hidden=true;document.body.classList.remove('menu-open');requestAnimationFrame(resize);}
+
   const tabs = $('level-tabs');
   LEVELS.forEach((l, i) => {
     const b = document.createElement('button'); b.className = 'level-tab'; b.type = 'button';
     b.innerHTML = `<span class="tab-num">0${i + 1}</span><span>${l.name}</span><span class="tab-done" hidden>✓</span>`;
     b.setAttribute('aria-label', `第 ${i + 1} 关：${l.name}`); b.onclick = () => loadLevel(i); tabs.appendChild(b);
   });
-  $('home-link').onclick = e => { e.preventDefault(); loadLevel(0); };
+  $('home-link').onclick = e => { e.preventDefault(); openMainMenu(); };
+  $('menu-continue').onclick=closeMainMenu;$('menu-close').onclick=closeMainMenu;$('menu-first').onclick=()=>{loadLevel(0);closeMainMenu();};
   $('play-btn').onclick = () => { if (compact() && (mode === 'running' || mode === 'paused')) togglePause(); else start(); }; $('pause-btn').onclick = togglePause; $('edit-btn').onclick = returnToEdit;
   $('speed-btn').onclick = toggleSpeed; $('undo-btn').onclick = () => undo(); $('redo-btn').onclick = () => undo(true);
   $('clear-btn').onclick = () => mutate(() => { items = []; selectedId = null; activeTool = ghost = null; }, '零件已清空。可以用撤销找回来。');
@@ -1661,10 +1765,13 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
   $('property-slider').addEventListener('pointercancel', commitRange);
   const dialog = $('help-dialog');
   $('help-btn').onclick = () => { if (mode === 'running') togglePause(); dialog.showModal(); };
+  $('menu-help').onclick=()=>{closeMainMenu();dialog.showModal();};
+  $('menu-sound').onclick=()=>{$('sound-btn').click();refreshMainMenu();};
   $('close-help').onclick = $('help-start').onclick = () => dialog.close();
   dialog.addEventListener('click', e => { const r = dialog.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dialog.close(); });
   window.addEventListener('keydown', e => {
     if (dialog.open) return;
+    if(!$('main-menu').hidden){if(e.key==='Escape')closeMainMenu();return;}
     const tag = document.activeElement?.tagName;
     if (tag === 'INPUT' || tag === 'TEXTAREA' || document.activeElement?.isContentEditable) return;
     const k = e.key.toLowerCase();
@@ -1682,9 +1789,10 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
   document.addEventListener('visibilitychange', () => { if (document.hidden) { cancelInteractions(); if (mode === 'running') togglePause(); save(); } lastFrame = 0; needsRender = true; });
 
   document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{activeTool=ghost=linkPending=null;selectedId=null;chooseCategory(b.dataset.category);updateUI();});
-  function setProperty(fn){const p=selected();if(!editing()||!p)return;if(activeTool){fn(p);updateInspector();}else mutate(()=>fn(p));}
-  $('static-btn').onclick=()=>setProperty(p=>p.dynamic=false);
+  function setProperty(fn){const p=selected();if(!editing()||!p||performance.now()<suppressInspectorUntil)return;if(activeTool){fn(p);updateInspector();}else mutate(()=>fn(p));}
+  $('static-btn').onclick=()=>setProperty(p=>{p.dynamic=false;if(p.type==='wheel')p.motor=0;});
   $('dynamic-btn').onclick=()=>setProperty(p=>p.dynamic=true);
+  document.querySelectorAll('[data-strength]').forEach(b=>b.onclick=()=>setProperty(p=>{if(P.isLink(p))p.strength=Number(b.dataset.strength);}));
   document.querySelectorAll('[data-motor]').forEach(b=>b.onclick=()=>setProperty(p=>p.motor=Number(b.dataset.motor)));
   $('move-group-btn').onclick=()=>{groupMove=!groupMove;updateInspector();};
   $('detach-btn').onclick=()=>{const p=selected();if(!p)return;mutate(()=>{items=items.filter(j=>!P.isLink(j)||(j.a.body!==p.id&&j.b.body!==p.id));},'连接已拆除，可撤销。');};
@@ -1701,6 +1809,7 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
     $('sound-btn').innerHTML = icon(muted ? 'mute' : 'sound');
     $('sound-btn').setAttribute('aria-pressed', String(!muted));
     $('sound-btn').setAttribute('aria-label', muted ? '开启音效' : '关闭音效');
+    if($('menu-sound'))$('menu-sound').textContent='音效：'+(muted?'关':'开');
     $('sound-btn').title = muted ? '开启音效' : '关闭音效';
   }
   function tone(freq, duration = .07, volume = .03, delay = 0) {
@@ -1842,6 +1951,7 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
       [-29, 29].forEach(y => { ctx.beginPath(); ctx.moveTo(-9, y); ctx.lineTo(9, y); ctx.stroke(); });
       ctx.strokeStyle = '#8fab6c'; ctx.lineWidth = 1.6; arrow(36, 0, 62, 0, 7);
     }
+    if(p.dynamic&&p.type!=='plank'){const [dw,dh]=P.dimensions(p);ctx.fillStyle='#446650';rr(-Math.min(dw/2-4,14),-dh/2+3,22,12,3);ctx.fill();ctx.fillStyle='#f2f4df';ctx.font='bold 9px sans-serif';ctx.textAlign='center';ctx.fillText('动',-Math.min(dw/2-4,14)+11,-dh/2+12);}
     ctx.restore();
   }
   function drawSelection(p, isGhost = false) {
@@ -1860,13 +1970,18 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
     ctx.restore();
   }
   function drawConnection(p,scene,highlight=false){
-    const a=P.anchorPoint(p.a,scene),b=P.anchorPoint(p.b,scene);ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+    const a=P.anchorPoint(p.a,scene),b=P.anchorPoint(p.b,scene),stress=p.stress||0;ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+    const hot=stress>.72,critical=stress>1;
     if(p.type==='rope'){
-      const d=Math.hypot(b.x-a.x,b.y-a.y),sag=Math.min(100,Math.sqrt(Math.max(0,p.length*p.length-d*d))*.5);
-      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.quadraticCurveTo((a.x+b.x)/2,(a.y+b.y)/2+sag,b.x,b.y);
-      if(highlight){ctx.strokeStyle='#c1ce9a';ctx.lineWidth=9/view.scale;ctx.stroke();}
-      ctx.strokeStyle='#b08658';ctx.lineWidth=4;ctx.stroke();ctx.strokeStyle='#e2c08c';ctx.lineWidth=1.1;ctx.setLineDash([4,4]);ctx.stroke();ctx.setLineDash([]);
-    }else{ctx.strokeStyle='#719285';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
+      const pts=p.ropePoints&&p.ropePoints.length>2?p.ropePoints:null;
+      if(pts){
+        const drawSegments=(width,color,dash=false)=>{ctx.strokeStyle=color;ctx.lineWidth=width;if(dash)ctx.setLineDash([4,4]);for(let i=0;i<pts.length-1;i++){if(p.broken&&i===p.breakIndex)continue;ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[i+1].x,pts[i+1].y);ctx.stroke();}ctx.setLineDash([]);};
+        if(highlight)drawSegments(9/view.scale,'#c1ce9a');drawSegments(4,critical?'#b95f4f':hot?'#c68355':'#b08658');drawSegments(1.1,'#e2c08c',true);
+      }else{
+        const d=Math.hypot(b.x-a.x,b.y-a.y),sag=Math.min(125,Math.sqrt(Math.max(0,p.length*p.length-d*d))*.64);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.quadraticCurveTo((a.x+b.x)/2,(a.y+b.y)/2+sag,b.x,b.y);if(highlight){ctx.strokeStyle='#c1ce9a';ctx.lineWidth=9/view.scale;ctx.stroke();}ctx.strokeStyle=hot?'#c68355':'#b08658';ctx.lineWidth=4;ctx.stroke();
+      }
+    }else if(!p.broken){ctx.strokeStyle=critical?'#b95f4f':hot?'#c68355':'#719285';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
+    if(p.broken){const q={x:p.breakX??(a.x+b.x)/2,y:p.breakY??(a.y+b.y)/2};ctx.strokeStyle='#b85e4e';ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(q.x-9,q.y-7);ctx.lineTo(q.x-2,q.y+1);ctx.lineTo(q.x-7,q.y+8);ctx.moveTo(q.x+8,q.y-8);ctx.lineTo(q.x+2,q.y);ctx.lineTo(q.x+8,q.y+7);ctx.stroke();}
     for(const [q,e] of [[a,p.a],[b,p.b]]){
       if(!e.body){ctx.fillStyle='#dce5d1';rr(q.x-13,q.y-13,26,26,5);ctx.fill();ctx.strokeStyle='#879d75';ctx.lineWidth=1.5;ctx.stroke();}
       ctx.beginPath();ctx.arc(q.x,q.y,p.type==='axle'?8:5,0,Math.PI*2);ctx.fillStyle=p.type==='axle'?'#f5d099':'#f0dec0';ctx.fill();ctx.strokeStyle=highlight?'#315d49':'#8d7858';ctx.lineWidth=highlight?3:1.5;ctx.stroke();
@@ -1891,6 +2006,10 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
   function emitImpact(event) {
     if (reducedMotion) return;
     for (let i = 0; i < 5; i++) effects.push({ x: event.x, y: event.y, vx: (Math.random() - .5) * 70, vy: -30 - Math.random() * 55, age: 0, life: .28 + Math.random() * .15, color: event.type === 'spring' ? '#d48b64' : '#bea782', size: 2, kind: 'dust' });
+  }
+  function emitBreak(event){
+    if(!reducedMotion)for(let i=0;i<14;i++)effects.push({x:event.x,y:event.y,vx:(Math.random()-.5)*190,vy:-35-Math.random()*120,age:0,life:.35+Math.random()*.35,color:event.linkType==='rope'?'#b58c5e':'#b85f4f',size:2+Math.random()*2,kind:'dust'});
+    toast(event.linkType==='rope'?'绳子拉断了！':'转轴断裂了！',1400);
   }
   function celebrate() {
     if (reducedMotion) return;
@@ -1974,7 +2093,7 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
       if (e.type === 'impact' || e.type === 'spring') {
         emitImpact(e);
         if (sim.time - lastSoundTime > .09) { tone(e.type === 'spring' ? 490 : Math.min(470, 160 + e.speed * .25), e.type === 'spring' ? .13 : .045, .02); lastSoundTime = sim.time; }
-      }
+      } else if(e.type==='break'){emitBreak(e);tone(e.linkType==='rope'?180:120,.12,.035);lastSoundTime=sim.time;}
     }
     if (sim.state !== 'running') finish();
   }
@@ -1993,11 +2112,12 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
     requestAnimationFrame(frame);
   }
   syncLayout(); loadLevel(levelIndex); resize(); new ResizeObserver(resize).observe(wrap); requestAnimationFrame(frame);
+  if(!(location.hash==='#test'||window.__LAB_ENABLE_TEST__===true))openMainMenu();
   // Optional, local-only test hooks. No hooks are exposed during ordinary play.
   if (location.hash === '#test' || window.__LAB_ENABLE_TEST__ === true) window.__LAB_TEST__ = {
-    state: () => ({ mode, levelIndex, items: P.clone(items), selectedId, activeTool, past: past.length, future: future.length,
+    state: () => ({ mode, levelIndex, items: P.clone(items), ghost:ghost?P.clone(ghost):null, selectedId, activeTool, past: past.length, future: future.length,
       sim: sim ? { state: sim.state, time: sim.time, ball: { ...sim.ball }, pathLength: sim.path.length,mechanical:!!sim.mechanical,items:P.clone(sim.items) } : null, previousPathLength: previousPath.length, storageOK, usedExample, view: { ...view }, camera: { ...camera }, compact: compact(), activePointers: pointers.size, dragType: drag?.type || null, focus: document.body.classList.contains('focus-mode') }),
-    loadLevel, loadExample, start, returnToEdit, undo, chooseTool, rotateSelected, resetCamera, fitCamera, zoomBy, updateFollowCamera,connectAt,placeTool,deleteSelected,togglePause,
+    loadLevel, loadExample, start, returnToEdit, undo, chooseTool, rotateSelected, resetCamera, fitCamera, zoomBy, updateFollowCamera,connectAt,placeTool,deleteSelected,togglePause,openMainMenu,closeMainMenu,
     setItems:parts=>{items=sanitizeParts(parts)||[];selectedId=null;refreshLinks();save();updateUI();},select:id=>{selectedId=id;activeTool=ghost=linkPending=null;updateUI();},
     advance: seconds => { const count = Math.ceil(seconds / P.DT); for (let i = 0; i < count && mode === 'running'; i++) physicsTick(); render(); return mode; }
   };
@@ -2038,7 +2158,7 @@ return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,conne
     say(isiOS ? 'iPhone：点 Safari 的分享按钮 →「添加到主屏幕」。' : '浏览器菜单里选择「安装应用」或「添加到主屏幕」。');
   });
   window.addEventListener('appinstalled', () => say('安装完成！以后可从主屏幕直接进入。'));
-  const VERSION='0.5.0';
+  const VERSION='0.6.0';
   let registration=null;
   const canRegister='serviceWorker' in navigator && ['https:','http:'].includes(location.protocol);
   async function register(){
