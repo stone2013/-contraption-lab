@@ -1,7 +1,7 @@
 {
   "name": "造啥都行 · Contraption Lab",
   "short_name": "造啥都行",
-  "description": "V0.6 断裂实验：柔性可断绳索、可断转轴、全动态零件与主菜单。",
+  "description": "V0.7 结构工坊：应力可视化、可断木板与弹簧、焊接、蓝图与机械建造。",
   "lang": "zh-CN",
   "start_url": "./",
   "scope": "./",

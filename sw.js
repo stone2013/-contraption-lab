@@ -1,5 +1,5 @@
-/* Contraption Lab v0.6.0 — project-scoped cache, same-folder GitHub Pages hosting. */
-const VERSION='0.6.0';
+/* Contraption Lab v0.7.0 — project-scoped cache, same-folder GitHub Pages hosting. */
+const VERSION='0.7.0';
 const SCOPE=self.registration.scope;
 const PREFIX='contraption-lab:'+new URL(SCOPE).pathname+':';
 const CACHE=PREFIX+VERSION;
