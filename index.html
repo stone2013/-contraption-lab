@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f3f4ee">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="description" content="造啥都行：用木板、弹簧与风扇，把小球送到终点。可离线游玩的物理建造解谜 Demo。">
+  <title>造啥都行 — 触屏发明工坊</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%232f5a48'/%3E%3Ccircle cx='24' cy='22' r='10' fill='%23ed986f'/%3E%3Cpath d='M14 44 49 32 53 43 18 55Z' fill='%23dfed9c'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14" stroke-width="3.5"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 9a8 8 0 1 1 .5 7M4 4v5h5"/></symbol>
+  <symbol id="i-undo" viewBox="0 0 24 24"><path d="m8 5-5 5 5 5M3 10h10a6 6 0 0 1 6 6v3"/></symbol>
+  <symbol id="i-redo" viewBox="0 0 24 24"><path d="m16 5 5 5-5 5M21 10H11a6 6 0 0 0-6 6v3"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="4" y="4" width="5" height="5" rx="1"/><rect x="15" y="4" width="5" height="5" rx="1"/><rect x="4" y="15" width="5" height="5" rx="1"/><rect x="15" y="15" width="5" height="5" rx="1"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7M14 10v7"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h16m-6-6 6 6-6 6"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 .5c0 1.5-2.5 2-2.5 4M12 17h.01"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4ZM17 8a6 6 0 0 1 0 8M20 5a10 10 0 0 1 0 14"/></symbol>
+  <symbol id="i-mute" viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4ZM17 9l5 6M22 9l-5 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 5 5L20 7"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="m12 2 2.6 7.4L22 12l-7.4 2.6L12 22l-2.6-7.4L2 12l7.4-2.6Z"/></symbol>
+  <symbol id="i-path" viewBox="0 0 24 24"><circle cx="5" cy="18" r="2"/><circle cx="19" cy="6" r="2"/><path d="M7 18h5a4 4 0 0 0 0-8H9a4 4 0 0 1 0-8" stroke-dasharray="2 4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-fit" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5"/><rect x="8" y="8" width="8" height="8" rx="1"/></symbol>
+  <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H3v5M16 3h5v5M3 16v5h5M21 16v5h-5M3 3l6 6M21 3l-6 6M3 21l6-6M21 21l-6-6"/></symbol>
+  <symbol id="i-more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.4"/><circle cx="12" cy="12" r="1.4"/><circle cx="19" cy="12" r="1.4"/></symbol>
+</defs></svg>
+<div class="app">
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="造啥都行 首页" id="home-link">
+      <span class="brand-mark"><span class="brand-ball"></span><span class="brand-plank"></span></span>
+      <span class="brand-type">造啥都行<span>CONTRAPTION LAB</span></span>
+      <span class="demo-tag">MOBILE 0.2</span>
+    </a>
+    <nav class="level-tabs" aria-label="选择关卡" id="level-tabs"></nav>
+    <div class="header-actions">
+      <button class="icon-button compact-only" id="focus-btn" aria-label="进入专注视图" aria-pressed="false" title="专注视图"><svg><use href="#i-expand"/></svg></button>
+      <button class="icon-button" id="sound-btn" title="开启音效" aria-label="开启音效" aria-pressed="false"><svg><use href="#i-mute"/></svg></button>
+      <button class="help-button" id="help-btn"><svg><use href="#i-help"/></svg><span>怎么玩</span></button>
+    </div>
+  </header>
+  <section class="intro" aria-labelledby="level-title">
+    <div><div class="eyebrow"><span class="tiny-dot"></span><span id="chapter-label">实验 01 / 重力入门</span></div>
+      <h1 id="level-title">把小球，送到终点。</h1></div>
+    <p id="level-desc">搭一条路，或者发明一台离谱机器。<br>没有标准答案，能到就行。</p>
+  </section>
+  <main class="workspace">
+    <aside class="parts-panel" aria-label="零件箱及零件属性">
+      <div class="panel-heading"><h2>零件箱</h2><span class="small-tag">3 种机关</span><button class="mobile-example compact-only" id="mobile-example-btn"><svg><use href="#i-spark"/></svg>看示例</button></div>
+      <p class="panel-note">选一个，再点击试验台放置</p>
+      <div class="parts-list">
+        <button class="part-card" data-tool="plank" aria-pressed="false" title="木板（快捷键 1）：点击选取，再点击试验台放置；也可以拖入">
+          <span class="part-art plank-art"><svg viewBox="0 0 96 54" aria-hidden="true"><g transform="rotate(-16 48 27)"><rect x="10" y="18" width="76" height="20" rx="5" fill="#b17e47"/><rect x="10" y="15" width="76" height="18" rx="4" fill="#e3bb83" stroke="#a67b49" stroke-width="1.5"/><path d="M27 21h24m4 5h18" stroke="#c09660" stroke-width="1.5" stroke-linecap="round"/><circle cx="19" cy="24" r="2" fill="#906940"/><circle cx="77" cy="24" r="2" fill="#906940"/></g></svg></span>
+          <span class="part-copy"><strong>木板</strong><small>搭路，让重力带路</small></span><kbd>1</kbd>
+        </button>
+        <button class="part-card" data-tool="spring" aria-pressed="false" title="弹簧（快捷键 2）：朝着弹射面的法线方向弹射小球">
+          <span class="part-art spring-art"><svg viewBox="0 0 96 58" aria-hidden="true"><path d="m29 40 34-6-30-6 30-6-31-5" fill="none" stroke="#d67f59" stroke-width="3" stroke-linejoin="round"/><rect x="19" y="10" width="57" height="8" rx="3" fill="#ef9d75" stroke="#b66b48" stroke-width="1.5"/><rect x="22" y="41" width="52" height="8" rx="3" fill="#d1b4a1"/><path d="M47 3v-7m-4 4 4-4 4 4" fill="none" stroke="#b66b48" stroke-width="1.5"/></svg></span>
+          <span class="part-copy"><strong>弹簧</strong><small>接住，再弹得更远</small></span><kbd>2</kbd>
+        </button>
+        <button class="part-card" data-tool="fan" aria-pressed="false" title="风扇（快捷键 3）：沿箭头方向持续施力">
+          <span class="part-art fan-art"><svg viewBox="0 0 96 58" aria-hidden="true"><rect x="20" y="6" width="43" height="43" rx="11" fill="#c6d7c0" stroke="#75936f" stroke-width="1.5"/><circle cx="41.5" cy="27.5" r="15" fill="#eef3e7" stroke="#75936f"/><g fill="#89a681"><path d="M42 26C27 7 56 11 45 26ZM43 29C61 15 58 45 44 32ZM39 30C43 52 18 36 36 28Z"/></g><circle cx="42" cy="28" r="3" fill="#57764f"/><path d="M70 19h13M69 28h18M70 37h12" stroke="#93ab87" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <span class="part-copy"><strong>风扇</strong><small>借阵风，换条路线</small></span><kbd>3</kbd>
+        </button>
+      </div>
+      <section class="inspector" id="inspector" aria-labelledby="inspector-title">
+        <div class="inspector-heading"><strong id="inspector-title">零件设置</strong><span id="inspector-caption">未选中</span><button class="compact-only selection-close" id="deselect-btn" aria-label="取消选择或放置"><svg><use href="#i-close"/></svg></button></div>
+        <div id="selection-empty" class="selection-empty"><svg><use href="#i-spark"/></svg><p><strong>点零件，再点画布。</strong><span>拖动移动 · 选中后调角度和力度</span></p></div>
+        <div id="selection-controls" hidden>
+          <div class="property-row"><label>旋转角度</label><output id="angle-value">18°</output></div>
+          <div class="angle-buttons"><button id="rotate-left" title="逆时针旋转 15°（Q）">↶ <span>15°</span></button><button id="rotate-right" title="顺时针旋转 15°（E）">↷ <span>15°</span></button><button id="delete-btn" title="删除选中零件（Delete）" aria-label="删除选中零件"><svg><use href="#i-trash"/></svg></button></div>
+          <div class="property-row"><label for="property-slider" id="property-label">木板长度</label><output id="property-value">240</output></div>
+          <input type="range" id="property-slider" min="140" max="340" step="10" value="240">
+          <p class="property-tip" id="property-tip">长一点，也许刚好接得住。</p>
+        </div>
+      </section>
+      <div class="hint-card"><div class="hint-title"><svg><use href="#i-spark"/></svg>发明家小贴士</div><p id="hint-text">坡道向右下方倾斜，小球就会滚起来。</p><button id="example-btn">载入示例方案 <svg><use href="#i-arrow"/></svg></button></div>
+    </aside>
+    <section class="lab-panel" aria-label="物理试验台">
+      <div class="lab-topbar">
+        <div class="stage-status"><span class="status-pill" id="status-pill"><span></span><b id="status-text">编辑中</b></span><span class="stage-label" id="stage-label">试验台 01</span><span class="compact-only mobile-clock" id="mobile-time">0.00s</span></div>
+        <div class="stage-tools"><span class="part-count" title="已使用的零件数量"><b id="part-count">1</b><span> / 8</span></span><span class="tool-divider"></span><button class="icon-button" id="undo-btn" aria-label="撤销" title="撤销（Ctrl / ⌘ + Z）"><svg><use href="#i-undo"/></svg></button><button class="icon-button" id="redo-btn" aria-label="重做" title="重做（Ctrl / ⌘ + Shift + Z）"><svg><use href="#i-redo"/></svg></button><button class="icon-button toggle-button" id="path-btn" aria-label="显示运动轨迹" title="显示运动轨迹" aria-pressed="true"><svg><use href="#i-path"/></svg></button><button class="icon-button toggle-button" id="grid-btn" aria-label="显示辅助网格" title="显示辅助网格" aria-pressed="true"><svg><use href="#i-grid"/></svg></button><button class="icon-button" id="clear-btn" aria-label="清空零件" title="清空零件（可以撤销）"><svg><use href="#i-trash"/></svg></button><button class="icon-button compact-only" id="more-btn" aria-label="更多试验台选项" aria-expanded="false" aria-controls="more-menu"><svg><use href="#i-more"/></svg></button></div>
+        <div class="mobile-menu compact-only" id="more-menu" hidden><button id="mobile-path-btn" aria-pressed="true"><svg><use href="#i-path"/></svg>显示运动轨迹<span>开</span></button><button id="mobile-grid-btn" aria-pressed="true"><svg><use href="#i-grid"/></svg>显示辅助网格<span>开</span></button><button id="mobile-clear-btn"><svg><use href="#i-trash"/></svg>清空所有零件<span>可撤销</span></button></div>
+      </div>
+      <div class="board-wrap" id="board-wrap">
+        <canvas id="board" tabindex="0" aria-label="物理游戏画布。点选零件，再点画布放置；拖动零件移动；双指缩放和平移。选中后可用下方按钮旋转。电脑也可用 Q、E 旋转。" aria-describedby="canvas-help">你的浏览器不支持 Canvas。请使用支持 Canvas 的现代浏览器。</canvas>
+        <span class="board-corner-label"><span></span>想法不必合理，物理说了算。</span>
+        <div class="view-controls" role="group" aria-label="画布视图"><button id="zoom-out" aria-label="缩小画布"><svg><use href="#i-minus"/></svg></button><button id="zoom-fit" aria-label="查看完整试验台" title="回到全景"><span id="zoom-value">全景</span></button><button id="zoom-in" aria-label="放大画布"><svg><use href="#i-plus"/></svg></button></div>
+        <span class="gesture-hint compact-only" id="gesture-hint">双指缩放 · 空白处拖动画面</span>
+        <div id="placement-banner" class="placement-banner" hidden>点击放置 · Q / E 旋转 · Esc 取消</div>
+        <div class="result-card" id="result-card" role="status" hidden>
+          <div class="result-icon" id="result-icon"><svg><use href="#i-check"/></svg></div>
+          <div><div class="result-eyebrow" id="result-eyebrow">DELIVERY COMPLETE</div><h2 id="result-title">这也能行！</h2><p id="result-desc">成功把小球送到了终点。</p></div>
+          <div class="result-actions"><button id="result-edit" class="secondary-button">继续改造</button><button id="result-next" class="primary-button">下一关 <svg><use href="#i-arrow"/></svg></button></div>
+        </div>
+        <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+      </div>
+      <div class="play-toolbar">
+        <div class="play-actions"><button class="primary-button play-button" id="play-btn"><svg><use href="#i-play"/></svg><span>开始实验</span><kbd>Space</kbd></button><button class="icon-button pause-button" id="pause-btn" aria-label="暂停实验" title="暂停 / 继续（空格）" disabled><svg><use href="#i-pause"/></svg></button><button class="reset-button" id="edit-btn" disabled><svg><use href="#i-reset"/></svg><span>返回编辑</span><kbd>R</kbd></button></div>
+        <div class="play-stats"><button class="speed-button" id="speed-btn" title="切换正常速度 / 半速慢放" aria-label="当前为正常速度，点击切换半速慢放">1×</button><span class="stat-separator"></span><div class="time-display"><span>实验用时</span><b id="time-value">0.00<span>s</span></b></div></div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><p id="canvas-help"><span class="desktop-help">拖动移动 <span>·</span> Q / E 旋转 <span>·</span> Delete 删除 <span>·</span> </span>失败也没关系，改改再来。</p><span class="save-status" id="save-status"><span></span>布局自动保存在本机</span></footer>
+</div>
+<dialog id="help-dialog" class="help-dialog">
+  <button class="icon-button dialog-close" id="close-help" aria-label="关闭帮助"><svg><use href="#i-close"/></svg></button>
+  <div class="eyebrow"><span class="tiny-dot"></span>发明家入门指南</div>
+  <h2>造得离谱，也能靠谱。</h2><p class="dialog-lead">目标只有一个：让橙色小球落进绿色篮筐，并停留片刻。</p>
+  <div class="help-steps"><div><b>01</b><p><strong>搭建你的机关</strong>选择零件，再点画布放置；也可以直接把零件拖进去。点同一零件按钮可取消放置。</p></div><div><b>02</b><p><strong>给它一点调整</strong>拖动移动，用下方按钮旋转和删除，长按角度按钮可连续旋转。电脑也可用 Q / E 和 Delete。</p></div><div><b>03</b><p><strong>让物理接手</strong>点「开始实验」观看。手机上再点同一按钮即可暂停或继续；「返回编辑」会保留上一轮轨迹。电脑也可按空格或 R。</p></div></div>
+  <div class="help-note"><strong>关于这个 Demo</strong><p>这是“小球＋固定机关”的玩法验证版。木板、弹簧和风扇固定在试验台上；弹簧和风扇会主动给小球施力。不是完整的结构破坏或多刚体沙盒。</p><p>触屏技巧：双指捏合缩放、双指或空白处拖动平移。「全景」重置视图，右上角可切换专注视图。手指拖动零件时会出现局部放大镜。游戏不会上传布局；慢放不改变物理参数。</p></div>
+  <button class="primary-button dialog-start" id="help-start">懂了，开始发明 <svg><use href="#i-arrow"/></svg></button>
+</dialog>
+<script src="physics.js"></script>
+<script src="levels.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
