@@ -10,7 +10,7 @@
   <meta name="format-detection" content="telephone=no">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="description" content="造啥都行：用木板、弹簧与风扇，把小球送到终点。可离线游玩的物理建造解谜 Demo。">
-  <title>造啥都行 — 触屏发明工坊</title>
+  <title>造啥都行 — 触屏发明工坊 v0.4</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icon-180.png">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%232f5a48'/%3E%3Ccircle cx='24' cy='22' r='10' fill='%23ed986f'/%3E%3Cpath d='M14 44 49 32 53 43 18 55Z' fill='%23dfed9c'/%3E%3C/svg%3E">
@@ -230,7 +230,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
 
 
-/* MOBILE 0.3 — game-first fullscreen layout + standalone PWA polish. */
+/* MOBILE 0.4 — bottom-anchored stage + follow camera + standalone PWA polish. */
 @media(max-width:760px), (pointer:coarse) and (max-width:1100px){
   :root{--dock-h:106px}
   .app{padding:max(5px,env(safe-area-inset-top)) max(6px,env(safe-area-inset-right)) max(5px,env(safe-area-inset-bottom)) max(6px,env(safe-area-inset-left));background:#f3f4ee}
@@ -317,6 +317,12 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   .part-art,.part-art svg{width:34px}
 }
 
+
+/* V0.4 — bottom-anchored world and camera-follow affordance. */
+@media(max-width:760px) and (orientation:portrait), (pointer:coarse) and (max-width:760px) and (orientation:portrait){
+  .gesture-hint{bottom:7px;background:#f6f8eef0}
+  body[data-mode=running] .lab-panel,body[data-mode=paused] .lab-panel{box-shadow:0 0 0 1px #dce4d4}
+}
 </style>
 </head>
 <body>
@@ -403,7 +409,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
         <canvas id="board" tabindex="0" aria-label="物理游戏画布。点选零件，再点画布放置；拖动零件移动；双指缩放和平移。选中后可用下方按钮旋转。电脑也可用 Q、E 旋转。" aria-describedby="canvas-help">你的浏览器不支持 Canvas。请使用支持 Canvas 的现代浏览器。</canvas>
         <span class="board-corner-label"><span></span>想法不必合理，物理说了算。</span>
         <div class="view-controls" role="group" aria-label="画布视图"><button id="zoom-out" aria-label="缩小画布"><svg><use href="#i-minus"/></svg></button><button id="zoom-fit" aria-label="查看完整试验台" title="回到全景"><span id="zoom-value">全景</span></button><button id="zoom-in" aria-label="放大画布"><svg><use href="#i-plus"/></svg></button></div>
-        <span class="gesture-hint compact-only" id="gesture-hint">双指缩放 · 空白处拖动画面</span>
+        <span class="gesture-hint compact-only" id="gesture-hint">双指缩放 · 拖动画面 · 实验自动跟球</span>
         <div id="placement-banner" class="placement-banner" hidden>点击放置 · Q / E 旋转 · Esc 取消</div>
         <div class="result-card" id="result-card" role="status" hidden>
           <div class="result-icon" id="result-icon"><svg><use href="#i-check"/></svg></div>
@@ -425,7 +431,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   <div class="eyebrow"><span class="tiny-dot"></span>发明家入门指南</div>
   <h2>造得离谱，也能靠谱。</h2><p class="dialog-lead">目标只有一个：让橙色小球落进绿色篮筐，并停留片刻。</p>
   <div class="help-steps"><div><b>01</b><p><strong>搭建你的机关</strong>选择零件，再点画布放置；也可以直接把零件拖进去。点同一零件按钮可取消放置。</p></div><div><b>02</b><p><strong>给它一点调整</strong>拖动移动，用下方按钮旋转和删除，长按角度按钮可连续旋转。电脑也可用 Q / E 和 Delete。</p></div><div><b>03</b><p><strong>让物理接手</strong>点「开始实验」观看。手机上再点同一按钮即可暂停或继续；「返回编辑」会保留上一轮轨迹。电脑也可按空格或 R。</p></div></div>
-  <div class="help-note"><strong>关于这个 Demo</strong><p>这是“小球＋固定机关”的玩法验证版。木板、弹簧和风扇固定在试验台上；弹簧和风扇会主动给小球施力。不是完整的结构破坏或多刚体沙盒。</p><p>触屏技巧：双指捏合缩放、双指或空白处拖动平移。「全景」重置视图，右上角可切换专注视图。手指拖动零件时会出现局部放大镜。游戏不会上传布局；慢放不改变物理参数。</p></div>
+  <div class="help-note"><strong>关于这个 Demo</strong><p>这是“小球＋固定机关”的玩法验证版。木板、弹簧和风扇固定在试验台上；弹簧和风扇会主动给小球施力。不是完整的结构破坏或多刚体沙盒。</p><p>触屏技巧：双指捏合缩放、双指或空白处拖动平移。手机编辑时默认放大并把地面贴在场景底部；开始实验后镜头会跟随小球，接近终点时自动把终点带入视野。手动拖动或缩放会暂时接管镜头；点「全景」可查看完整试验台。游戏不会上传布局；慢放不改变物理参数。</p></div>
   <button class="primary-button dialog-start" id="help-start">懂了，开始发明 <svg><use href="#i-arrow"/></svg></button>
 </dialog>
 <script>
@@ -632,7 +638,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   let showGrid = true, showPath = true, playbackSpeed = 1, accumulator = 0, lastFrame = 0;
   let effects = [], toastTimer = 0, muted = true, audio = null, lastSoundTime = -10;
   let view = { w: 1000, h: 620, scale: 1, ox: 0, oy: 0, dpr: 1 }, initialized = false;
-  const camera = { zoom: 1, cx: P.W / 2, cy: P.H / 2 };
+  const camera = { zoom: 1, cx: P.W / 2, cy: P.H / 2, follow: false, preset: 'edit' };
   const pointers = new Map();
   let pinch = null, gestureConsumed = false, needsRender = true, clockPaint = 0;
   let rotationTimer = null, rotationHeld = false;
@@ -740,8 +746,8 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     if (mode === 'running' || mode === 'paused') return;
     if (sim && sim.path.length) previousPath = sim.path.slice();
     cancelInteractions();
-    activeTool = ghost = null; drag = cardDrag = null; if (compact()) resetCamera(); sim = P.create(level(), items);
-    mode = 'running'; effects = []; accumulator = 0; lastFrame = 0; lastSoundTime = -10;
+    activeTool = ghost = null; drag = cardDrag = null; sim = P.create(level(), items);
+    mode = 'running'; prepareRunCamera(); effects = []; accumulator = 0; lastFrame = 0; lastSoundTime = -10;
     $('result-card').hidden = true; $('toast').hidden = true;
     resumeAudio(); updateUI(); tone(330, .05, .025);
   }
@@ -750,7 +756,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     if (document.body.classList.contains('focus-mode')) setFocus(false);
     if (sim && sim.path.length) previousPath = sim.path.slice();
     sim = null; mode = 'edit'; effects = []; accumulator = 0; drag = cardDrag = null;
-    $('result-card').hidden = true; updateUI();
+    resetCamera(); $('result-card').hidden = true; updateUI();
   }
   function togglePause() {
     if (mode !== 'running' && mode !== 'paused') return;
@@ -847,32 +853,85 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     updateInspector();
   }
 
-  // A camera independent of physics: neither zoom nor orientation changes the world.
+  // V0.4 camera: physics stays in world coordinates; only the viewport moves.
+  // Portrait phones use a closer default view and bottom-anchor the full world so
+  // fixed terrain / the fall zone sit at the visible bottom instead of floating mid-screen.
   function updateClock() {
     const text = sim ? sim.time.toFixed(2) : '0.00';
     $('time-value').innerHTML = text + '<span>s</span>';
     $('mobile-time').textContent = text + 's';
   }
+  function portraitCompact() {
+    return compact() && (window.matchMedia?.('(orientation: portrait)').matches ?? (window.innerHeight >= window.innerWidth));
+  }
+  function editCameraZoom() { return portraitCompact() ? 1.55 : compact() ? 1.16 : 1; }
+  function runCameraZoom() { return portraitCompact() ? 2.05 : compact() ? 1.38 : 1; }
   function syncCamera() {
     const base = Math.min(view.w / P.W, view.h / P.H);
     if (!base) return;
     view.scale = base * camera.zoom;
     const halfW = view.w / (2 * view.scale), halfH = view.h / (2 * view.scale);
-    camera.cx = halfW >= P.W / 2 ? P.W / 2 : P.clamp(camera.cx, halfW, P.W - halfW);
-    camera.cy = halfH >= P.H / 2 ? P.H / 2 : P.clamp(camera.cy, halfH, P.H - halfH);
-    view.ox = view.w / 2 - camera.cx * view.scale;
-    view.oy = view.h / 2 - camera.cy * view.scale;
+    if (halfW >= P.W / 2) {
+      camera.cx = P.W / 2;
+      view.ox = (view.w - P.W * view.scale) / 2;
+    } else {
+      camera.cx = P.clamp(camera.cx, halfW, P.W - halfW);
+      view.ox = view.w / 2 - camera.cx * view.scale;
+    }
+    // V0.4: in portrait edit/full-stage views, the WORLD bottom is the visual bottom.
+    // This removes the large blank strip that used to appear under the terrain on tall phones.
+    const bottomAnchored = portraitCompact() && (camera.preset === 'edit' || camera.preset === 'fit');
+    if (bottomAnchored) {
+      view.oy = view.h - P.H * view.scale - 4;
+      camera.cy = (view.h / 2 - view.oy) / view.scale;
+    } else if (halfH >= P.H / 2) {
+      camera.cy = P.H / 2;
+      view.oy = (view.h - P.H * view.scale) / 2;
+    } else {
+      camera.cy = P.clamp(camera.cy, halfH, P.H - halfH);
+      view.oy = view.h / 2 - camera.cy * view.scale;
+    }
     $('zoom-value').textContent = camera.zoom <= 1.015 ? '全景' : camera.zoom.toFixed(1) + '×';
     $('zoom-out').disabled = camera.zoom <= 1.01;
     $('zoom-in').disabled = camera.zoom >= 3.49;
     $('zoom-fit').setAttribute('aria-label', '查看完整试验台，当前放大 ' + camera.zoom.toFixed(1) + ' 倍');
     needsRender = true;
   }
-  function resetCamera() { camera.zoom = 1; camera.cx = P.W / 2; camera.cy = P.H / 2; syncCamera(); }
+  function resetCamera() {
+    camera.follow = false; camera.preset = 'edit'; camera.zoom = editCameraZoom();
+    camera.cx = P.W / 2; camera.cy = P.H / 2; syncCamera();
+  }
+  function fitCamera() {
+    camera.follow = false; camera.preset = 'fit'; camera.zoom = 1;
+    camera.cx = P.W / 2; camera.cy = P.H / 2; syncCamera();
+  }
+  function prepareRunCamera() {
+    const b = sim?.ball || level().start;
+    camera.follow = compact(); camera.preset = camera.follow ? 'follow' : 'manual';
+    camera.zoom = runCameraZoom(); camera.cx = b.x; camera.cy = b.y; syncCamera();
+  }
+  function takeCameraControl() { camera.follow = false; camera.preset = 'manual'; }
   function zoomBy(factor) {
+    takeCameraControl();
     const target = selected() || (sim ? sim.ball : null);
     camera.zoom = P.clamp(camera.zoom * factor, 1, 3.5);
     if (target) { camera.cx = target.x; camera.cy = target.y; }
+    syncCamera();
+  }
+  function updateFollowCamera(dt) {
+    if (!camera.follow || !compact() || !sim || mode !== 'running') return;
+    const b = sim.ball, g = level().goal;
+    const dist = Math.hypot(g.x - b.x, g.y - b.y);
+    const nearGoal = dist < 330;
+    const baseZoom = runCameraZoom();
+    const wantedZoom = nearGoal ? Math.max(1.5, baseZoom * .80) : baseZoom;
+    const lookX = P.clamp(b.vx * .18, -105, 105), lookY = P.clamp(b.vy * .10, -55, 75);
+    const wantedX = nearGoal ? (b.x + g.x) / 2 : b.x + lookX;
+    const wantedY = nearGoal ? (b.y + g.y - 20) / 2 : b.y + lookY;
+    const a = reducedMotion ? 1 : 1 - Math.exp(-Math.max(0, dt) * 6.5);
+    camera.zoom += (wantedZoom - camera.zoom) * a;
+    camera.cx += (wantedX - camera.cx) * a;
+    camera.cy += (wantedY - camera.cy) * a;
     syncCamera();
   }
   function localClient(e) { const r = canvas.getBoundingClientRect(); return { x: e.clientX - r.left, y: e.clientY - r.top }; }
@@ -906,7 +965,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     stopRotation();
   }
   function beginPinch() {
-    rollbackDrag(); gestureConsumed = true;
+    takeCameraControl(); rollbackDrag(); gestureConsumed = true;
     const [a, b] = [...pointers.values()], x = (a.x + b.x) / 2, y = (a.y + b.y) / 2;
     pinch = { distance: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)), zoom: camera.zoom,
       wx: (x - view.ox) / view.scale, wy: (y - view.oy) / view.scale };
@@ -959,7 +1018,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     pointer = worldPoint(e);
     if (drag && drag.pointerId !== e.pointerId) return;
     if (drag && drag.type === 'pan') {
-      const q = localClient(e);
+      takeCameraControl(); const q = localClient(e);
       camera.cx = drag.cx - (q.x - drag.x) / view.scale; camera.cy = drag.cy - (q.y - drag.y) / view.scale;
       syncCamera(); return;
     }
@@ -1052,7 +1111,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   $('deselect-btn').onclick = () => { if (!editing()) return; activeTool = ghost = null; selectedId = null; updateUI(); };
   $('zoom-in').onclick = () => zoomBy(1.4);
   $('zoom-out').onclick = () => zoomBy(1 / 1.4);
-  $('zoom-fit').onclick = resetCamera;
+  $('zoom-fit').onclick = fitCamera;
   compactQuery.addEventListener('change', syncLayout);
   window.addEventListener('blur', () => { cancelInteractions(); updateUI(); });
 
@@ -1380,6 +1439,8 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     const cw = Math.round(r.width * view.dpr), ch = Math.round(r.height * view.dpr);
     if (canvas.width !== cw) canvas.width = cw;
     if (canvas.height !== ch) canvas.height = ch;
+    if (camera.preset === 'edit' && editing()) camera.zoom = editCameraZoom();
+    else if (camera.follow && mode === 'running') camera.zoom = P.clamp(camera.zoom, 1, 3.5);
     syncCamera(); render(); needsRender = false;
   }
   function physicsTick() {
@@ -1400,6 +1461,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
       let n = 0;
       while (accumulator >= P.DT && mode === 'running' && n++ < 20) { accumulator -= P.DT; physicsTick(); }
       if (n >= 20) accumulator = 0;
+      updateFollowCamera(dt);
       if (sim && timestamp - clockPaint > 90) { updateClock(); clockPaint = timestamp; }
     }
     const hadEffects = effects.length > 0; updateEffects(dt);
@@ -1411,7 +1473,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   if (location.hash === '#test' || window.__LAB_ENABLE_TEST__ === true) window.__LAB_TEST__ = {
     state: () => ({ mode, levelIndex, items: P.clone(items), selectedId, activeTool, past: past.length, future: future.length,
       sim: sim ? { state: sim.state, time: sim.time, ball: { ...sim.ball }, pathLength: sim.path.length } : null, previousPathLength: previousPath.length, storageOK, usedExample, view: { ...view }, camera: { ...camera }, compact: compact(), activePointers: pointers.size, dragType: drag?.type || null, focus: document.body.classList.contains('focus-mode') }),
-    loadLevel, loadExample, start, returnToEdit, undo, chooseTool, rotateSelected, resetCamera, zoomBy,
+    loadLevel, loadExample, start, returnToEdit, undo, chooseTool, rotateSelected, resetCamera, fitCamera, zoomBy, updateFollowCamera,
     advance: seconds => { const count = Math.ceil(seconds / P.DT); for (let i = 0; i < count && mode === 'running'; i++) physicsTick(); render(); return mode; }
   };
 })();
