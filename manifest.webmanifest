@@ -1,0 +1,30 @@
+{
+  "name": "造啥都行 · Contraption Lab",
+  "short_name": "造啥都行",
+  "description": "用木板、弹簧和风扇把小球送到终点的物理建造解谜游戏。",
+  "lang": "zh-CN",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "orientation": "any",
+  "background_color": "#f3f4ee",
+  "theme_color": "#315d49",
+  "icons": [
+    {
+      "src": "./icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
