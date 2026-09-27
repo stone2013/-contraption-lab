@@ -91,7 +91,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   .view-controls{top:8px;right:8px;border-radius:10px}
   .view-controls button{min-width:44px;height:44px;padding:0 6px;font-size:11px}
   #zoom-fit{min-width:48px}
-  .gesture-hint{position:absolute;left:12px;bottom:9px;font-size:9px;line-height:14px;letter-spacing:.2px;color:#79896b;pointer-events:none;background:#f6f8eec9;padding:2px 5px;border-radius:4px}
+  .gesture-hint{position:absolute;left:12px;bottom:58px;font-size:9px;line-height:14px;letter-spacing:.2px;color:#79896b;pointer-events:none;background:#f6f8eec9;padding:2px 5px;border-radius:4px}
   .placement-banner{font-size:11px;line-height:16px;white-space:normal;max-width:calc(100% - 20px);width:max-content;text-align:center;bottom:9px;padding:7px 12px;border-radius:9px;z-index:4}
   .board-wrap[data-tool] .gesture-hint{display:none}
   .parts-panel{order:1;flex:0 0 var(--dock-h);height:var(--dock-h);min-height:0;padding:7px 10px 8px;border-radius:14px;display:flex;flex-direction:column;gap:0;overflow:hidden;box-shadow:none}
@@ -320,7 +320,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
 
 /* V0.4 — bottom-anchored world and camera-follow affordance. */
 @media(max-width:760px) and (orientation:portrait), (pointer:coarse) and (max-width:760px) and (orientation:portrait){
-  .gesture-hint{bottom:7px;background:#f6f8eef0}
+  .gesture-hint{bottom:58px;background:#f6f8eef0}
   body[data-mode=running] .lab-panel,body[data-mode=paused] .lab-panel{box-shadow:0 0 0 1px #dce4d4}
 }
 </style>
@@ -431,7 +431,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   <div class="eyebrow"><span class="tiny-dot"></span>发明家入门指南</div>
   <h2>造得离谱，也能靠谱。</h2><p class="dialog-lead">目标只有一个：让橙色小球落进绿色篮筐，并停留片刻。</p>
   <div class="help-steps"><div><b>01</b><p><strong>搭建你的机关</strong>选择零件，再点画布放置；也可以直接把零件拖进去。点同一零件按钮可取消放置。</p></div><div><b>02</b><p><strong>给它一点调整</strong>拖动移动，用下方按钮旋转和删除，长按角度按钮可连续旋转。电脑也可用 Q / E 和 Delete。</p></div><div><b>03</b><p><strong>让物理接手</strong>点「开始实验」观看。手机上再点同一按钮即可暂停或继续；「返回编辑」会保留上一轮轨迹。电脑也可按空格或 R。</p></div></div>
-  <div class="help-note"><strong>关于这个 Demo</strong><p>这是“小球＋固定机关”的玩法验证版。木板、弹簧和风扇固定在试验台上；弹簧和风扇会主动给小球施力。不是完整的结构破坏或多刚体沙盒。</p><p>触屏技巧：双指捏合缩放、双指或空白处拖动平移。手机编辑时默认放大并把地面贴在场景底部；开始实验后镜头会跟随小球，接近终点时自动把终点带入视野。手动拖动或缩放会暂时接管镜头；点「全景」可查看完整试验台。游戏不会上传布局；慢放不改变物理参数。</p></div>
+  <div class="help-note"><strong>关于这个 Demo</strong><p>这是“小球＋固定机关”的玩法验证版。木板、弹簧和风扇固定在试验台上；弹簧和风扇会主动给小球施力。不是完整的结构破坏或多刚体沙盒。</p><p>触屏技巧：双指捏合缩放、双指或空白处拖动平移。手机编辑时会自动计算最佳取景，让起点和终点保持可见并把地面贴在场景底部；开始实验后镜头会跟随小球，接近画面边缘会提前追踪，接近终点时自动把终点带入视野。手动拖动或缩放会暂时接管镜头；点「全景」可查看完整试验台。游戏不会上传布局；慢放不改变物理参数。</p></div>
   <button class="primary-button dialog-start" id="help-start">懂了，开始发明 <svg><use href="#i-arrow"/></svg></button>
 </dialog>
 <script>
@@ -694,12 +694,12 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   function loadLevel(index) {
     cancelInteractions();
     if (initialized) save();
-    resetCamera();
     levelIndex = P.clamp(index, 0, LEVELS.length - 1);
     const draft = storage.drafts[level().id], validated = draft ? sanitizeParts(draft.parts) : null;
     items = validated || P.clone(level().initial); usedExample = !!(validated && draft.example);
     mode = 'edit'; sim = null; selectedId = null; activeTool = ghost = null; drag = cardDrag = null;
     past = []; future = []; previousPath = []; effects = []; accumulator = 0; lastFrame = 0;
+    resetCamera();
     $('result-card').hidden = true; $('toast').hidden = true; clearTimeout(toastTimer);
     initialized = true; save(); updateUI();
   }
@@ -853,9 +853,10 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     updateInspector();
   }
 
-  // V0.4 camera: physics stays in world coordinates; only the viewport moves.
-  // Portrait phones use a closer default view and bottom-anchor the full world so
-  // fixed terrain / the fall zone sit at the visible bottom instead of floating mid-screen.
+  // V0.4.1 camera: physics stays in world coordinates; only the viewport moves.
+  // Portrait edit mode now uses a smart framing target instead of a fixed 1.55x zoom.
+  // The start, goal and useful bottom area remain in frame while the world bottom stays
+  // visually attached to the bottom edge of the play field.
   function updateClock() {
     const text = sim ? sim.time.toFixed(2) : '0.00';
     $('time-value').innerHTML = text + '<span>s</span>';
@@ -864,7 +865,27 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   function portraitCompact() {
     return compact() && (window.matchMedia?.('(orientation: portrait)').matches ?? (window.innerHeight >= window.innerWidth));
   }
-  function editCameraZoom() { return portraitCompact() ? 1.55 : compact() ? 1.16 : 1; }
+  function editInterestBounds() {
+    const l = level(), s = l.start, g = l.goal;
+    // Extra room keeps the start label and the goal flag visible. We intentionally do not
+    // force the extreme outer edges of the decorative terrain into this closer edit view.
+    return {
+      minX: P.clamp(Math.min(s.x - 78, g.x - 92), 0, P.W),
+      maxX: P.clamp(Math.max(s.x + 78, g.x + 112), 0, P.W)
+    };
+  }
+  function editCameraCenterX() {
+    const b = editInterestBounds();
+    return (b.minX + b.maxX) / 2;
+  }
+  function editCameraZoom() {
+    if (!portraitCompact()) return compact() ? 1.16 : 1;
+    const b = editInterestBounds();
+    // In portrait the base scale is normally width-limited, so P.W / visibleWidth gives
+    // the largest zoom that still keeps the important horizontal span in view.
+    const fit = P.W / Math.max(1, b.maxX - b.minX);
+    return P.clamp(Math.min(1.12, fit), 1.02, 1.12);
+  }
   function runCameraZoom() { return portraitCompact() ? 2.05 : compact() ? 1.38 : 1; }
   function syncCamera() {
     const base = Math.min(view.w / P.W, view.h / P.H);
@@ -878,8 +899,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
       camera.cx = P.clamp(camera.cx, halfW, P.W - halfW);
       view.ox = view.w / 2 - camera.cx * view.scale;
     }
-    // V0.4: in portrait edit/full-stage views, the WORLD bottom is the visual bottom.
-    // This removes the large blank strip that used to appear under the terrain on tall phones.
+    // Keep the physical bottom of the world attached to the bottom of the phone scene.
     const bottomAnchored = portraitCompact() && (camera.preset === 'edit' || camera.preset === 'fit');
     if (bottomAnchored) {
       view.oy = view.h - P.H * view.scale - 4;
@@ -894,16 +914,19 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     $('zoom-value').textContent = camera.zoom <= 1.015 ? '全景' : camera.zoom.toFixed(1) + '×';
     $('zoom-out').disabled = camera.zoom <= 1.01;
     $('zoom-in').disabled = camera.zoom >= 3.49;
-    $('zoom-fit').setAttribute('aria-label', '查看完整试验台，当前放大 ' + camera.zoom.toFixed(1) + ' 倍');
+    $('zoom-fit').setAttribute('aria-label', '查看最佳全景，当前放大 ' + camera.zoom.toFixed(1) + ' 倍');
     needsRender = true;
   }
   function resetCamera() {
     camera.follow = false; camera.preset = 'edit'; camera.zoom = editCameraZoom();
-    camera.cx = P.W / 2; camera.cy = P.H / 2; syncCamera();
+    camera.cx = portraitCompact() ? editCameraCenterX() : P.W / 2; camera.cy = P.H / 2; syncCamera();
   }
   function fitCamera() {
-    camera.follow = false; camera.preset = 'fit'; camera.zoom = 1;
-    camera.cx = P.W / 2; camera.cy = P.H / 2; syncCamera();
+    camera.follow = false; camera.preset = 'fit';
+    const b = editInterestBounds();
+    const contentFit = P.W / Math.max(1, (b.maxX - b.minX) + 36);
+    camera.zoom = portraitCompact() ? P.clamp(Math.min(1.08, contentFit), 1, 1.08) : 1;
+    camera.cx = portraitCompact() ? (b.minX + b.maxX) / 2 : P.W / 2; camera.cy = P.H / 2; syncCamera();
   }
   function prepareRunCamera() {
     const b = sim?.ball || level().start;
@@ -924,11 +947,23 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     const dist = Math.hypot(g.x - b.x, g.y - b.y);
     const nearGoal = dist < 330;
     const baseZoom = runCameraZoom();
-    const wantedZoom = nearGoal ? Math.max(1.5, baseZoom * .80) : baseZoom;
-    const lookX = P.clamp(b.vx * .18, -105, 105), lookY = P.clamp(b.vy * .10, -55, 75);
-    const wantedX = nearGoal ? (b.x + g.x) / 2 : b.x + lookX;
+    const wantedZoom = nearGoal ? Math.max(1.48, baseZoom * .78) : baseZoom;
+    const lookX = P.clamp(b.vx * .24, -145, 145), lookY = P.clamp(b.vy * .12, -65, 85);
+    let wantedX = nearGoal ? (b.x + g.x) / 2 : b.x + lookX;
     const wantedY = nearGoal ? (b.y + g.y - 20) / 2 : b.y + lookY;
-    const a = reducedMotion ? 1 : 1 - Math.exp(-Math.max(0, dt) * 6.5);
+
+    // Edge guard: when the ball enters the outer 30% of the current view, shift the
+    // target immediately in its travel direction so it never hugs the screen edge.
+    const base = Math.min(view.w / P.W, view.h / P.H);
+    const halfW = base > 0 ? view.w / (2 * base * Math.max(1, camera.zoom)) : 220;
+    const guard = halfW * .58;
+    const dx = b.x - camera.cx;
+    let edgePressure = 0;
+    if (!nearGoal && dx > guard) { edgePressure = (dx - guard) / Math.max(1, halfW - guard); wantedX += halfW * (.16 + .16 * P.clamp(edgePressure, 0, 1)); }
+    else if (!nearGoal && dx < -guard) { edgePressure = (-dx - guard) / Math.max(1, halfW - guard); wantedX -= halfW * (.16 + .16 * P.clamp(edgePressure, 0, 1)); }
+
+    const rate = 7.8 + 4.2 * P.clamp(edgePressure, 0, 1);
+    const a = reducedMotion ? 1 : 1 - Math.exp(-Math.max(0, dt) * rate);
     camera.zoom += (wantedZoom - camera.zoom) * a;
     camera.cx += (wantedX - camera.cx) * a;
     camera.cy += (wantedY - camera.cy) * a;
@@ -1439,7 +1474,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     const cw = Math.round(r.width * view.dpr), ch = Math.round(r.height * view.dpr);
     if (canvas.width !== cw) canvas.width = cw;
     if (canvas.height !== ch) canvas.height = ch;
-    if (camera.preset === 'edit' && editing()) camera.zoom = editCameraZoom();
+    if (camera.preset === 'edit' && editing()) { camera.zoom = editCameraZoom(); camera.cx = portraitCompact() ? editCameraCenterX() : P.W / 2; }
     else if (camera.follow && mode === 'running') camera.zoom = P.clamp(camera.zoom, 1, 3.5);
     syncCamera(); render(); needsRender = false;
   }
