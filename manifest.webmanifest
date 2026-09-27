@@ -1,7 +1,7 @@
 {
   "name": "造啥都行 · Contraption Lab",
   "short_name": "造啥都行",
-  "description": "V0.7 结构工坊：应力可视化、可断木板与弹簧、焊接、蓝图与机械建造。",
+  "description": "V0.8 挑战工坊：12 个关卡、无限零件、柔性绳、断裂、焊接与机械建造。",
   "lang": "zh-CN",
   "start_url": "./",
   "scope": "./",
