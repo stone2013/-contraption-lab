@@ -3,14 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="application-version" content="0.5.0">
   <meta name="theme-color" content="#315d49">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="造啥都行">
   <meta name="format-detection" content="telephone=no">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="description" content="造啥都行：用木板、弹簧与风扇，把小球送到终点。可离线游玩的物理建造解谜 Demo。">
-  <title>造啥都行 — 触屏发明工坊 v0.4</title>
+  <meta name="description" content="造啥都行 V0.5：动态木板、轮子、转轴与绳子。六关物理建造解谜，支持触屏和离线。">
+  <title>造啥都行 — 机械时代 v0.5.0</title>
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./icon-180.png">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%232f5a48'/%3E%3Ccircle cx='24' cy='22' r='10' fill='%23ed986f'/%3E%3Cpath d='M14 44 49 32 53 43 18 55Z' fill='%23dfed9c'/%3E%3C/svg%3E">
@@ -323,6 +324,97 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   .gesture-hint{bottom:58px;background:#f6f8eef0}
   body[data-mode=running] .lab-panel,body[data-mode=paused] .lab-panel{box-shadow:0 0 0 1px #dce4d4}
 }
+
+/* V0.5 — preserve the existing scene/camera, add compact mechanical tools. */
+.level-tabs{min-width:0;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain;position:relative}
+.level-tabs::-webkit-scrollbar{display:none}
+.level-tab{flex:0 0 auto;padding-left:12px;padding-right:12px}
+.version-badge{display:inline-flex!important;font-size:9px;letter-spacing:.3px;color:#58744b;background:#e7edd9;border-color:#d4ddc7;white-space:nowrap;padding:3px 5px}
+.part-categories{display:flex;gap:2px;background:#eaf0e2;padding:2px;border-radius:8px}
+.part-categories button{height:34px;min-width:41px;padding:0 8px;font-size:11px;border-radius:6px;color:#66785b}
+.part-categories button[aria-pressed=true]{background:#fffef8;box-shadow:0 1px 3px #315d4912;color:#315d49;font-weight:700}
+.mechanic-options{display:flex;align-items:center;gap:4px;margin-top:5px;flex-wrap:wrap}
+.mechanic-options>span{font-size:10px;color:#718462;margin-right:4px}
+.mechanic-options button{min-height:38px;min-width:45px;padding:5px 8px;background:#f5f7ef;border:1px solid #dce3d2;border-radius:7px;font-size:10px}
+.mechanic-options button[aria-pressed=true]{color:#315d49;border-color:#9cb687;background:#e7efdc;font-weight:700}
+.assembly-controls{margin-top:6px;padding-top:6px;border-top:1px solid #e4e8da}
+.assembly-controls button{flex:1}
+#selection-controls .property-tip{grid-column:1/-1}
+.placement-banner{top:65px;bottom:auto}
+.gesture-hint{top:12px;bottom:auto!important;font-size:8px;max-width:calc(100% - 144px);background:transparent!important;padding:0!important}
+.board-corner-label{display:none}
+@media(max-width:760px),(pointer:coarse) and (max-width:1100px){
+ .level-tabs{display:flex;width:100%;padding:0;flex-wrap:nowrap;justify-content:flex-start}
+ .level-tab{flex:0 0 calc((100% - 4px)/3);min-width:0;justify-content:center;padding:0 3px}
+ .brand-type{font-size:14px}
+ .version-badge{font-size:8px;margin-left:0}
+ .parts-panel .panel-heading{display:flex!important;justify-content:space-between;gap:4px}
+ .panel-heading h2{font-size:11px;white-space:nowrap}
+ .part-categories button{height:30px;min-width:39px;font-size:10px;padding:0 7px}
+ .mobile-example{min-width:64px}
+ .parts-panel:has(#selection-controls:not([hidden])){--dock-h:218px}
+ .parts-panel:has(#selection-controls:not([hidden])) .parts-list{display:none}
+ .parts-panel:has(#selection-controls:not([hidden])) .inspector{padding-top:3px;overflow:auto;scrollbar-width:thin;margin-top:0}
+ .parts-panel .inspector-heading{height:23px;margin-bottom:1px}
+ #selection-controls{gap:1px 8px}
+ #selection-controls .mechanic-options{grid-column:1/-1;grid-row:auto;min-height:40px;margin-top:0;flex-wrap:nowrap}
+ .mechanic-options button{height:40px;min-height:40px;padding:0 8px}
+ #selection-controls .assembly-controls{min-height:40px;border-top:0;padding-top:0;gap:5px}
+ .selection-close{top:-1px;width:36px;height:30px}
+ #property-slider{min-width:0}
+ .property-row{min-width:0;gap:3px}
+ .placement-banner{top:57px;bottom:auto;max-width:calc(100% - 16px)}
+ .gesture-hint{top:14px;left:8px;font-size:8px;max-width:calc(100% - 138px);line-height:13px}
+ .view-controls button{font-size:11px}
+}
+@media(max-width:360px){.version-badge{display:none!important}.part-categories button{padding:0 5px;min-width:34px}.parts-panel:has(#selection-controls:not([hidden])){--dock-h:214px}}
+@media(max-width:1100px) and (max-height:620px) and (orientation:landscape) and (pointer:coarse),(max-width:760px) and (max-height:520px) and (orientation:landscape){
+ .topbar{height:40px!important;min-height:40px!important;display:flex!important;gap:8px}
+ .topbar .level-tabs{display:flex;width:auto;flex:1;height:34px;max-width:470px;min-width:80px}
+ .topbar .level-tab{height:32px;flex:0 0 92px;font-size:10px}
+ .parts-panel,.parts-panel:has(#selection-controls:not([hidden])){height:100%;--dock-h:auto;padding:5px 7px;overflow-y:auto}
+ .panel-heading{flex-wrap:wrap;min-height:66px!important;height:66px!important}
+ .part-categories{order:3;width:100%;justify-content:space-around}
+ .part-categories button{flex:1}
+ .parts-list{flex-direction:column!important;min-height:0!important;height:auto!important;flex:none;gap:5px}
+ .part-card{height:50px!important;min-height:50px!important;flex:0 0 50px}
+ .parts-panel:has(#selection-controls:not([hidden])) .parts-list{display:none!important}
+ .parts-panel .inspector{overflow:visible!important;flex:none}
+ #selection-controls{display:flex;flex-direction:column;gap:3px;align-items:stretch}
+ #selection-controls .property-row{padding:0!important;min-height:17px}
+ #selection-controls .angle-buttons{width:100%;height:38px;min-height:38px}
+ #selection-controls .angle-buttons button{height:38px;min-height:38px}
+ #selection-controls input{height:32px;min-height:32px}
+ .mechanic-options{flex-wrap:wrap!important}
+ .mechanic-options button{flex:1;padding:0 5px}
+ .mechanic-options>span{width:100%}
+ .assembly-controls button{font-size:9px}
+ .version-badge{display:none!important}
+ body[data-mode=running] .level-tabs,body[data-mode=paused] .level-tabs,body[data-mode=won] .level-tabs,body[data-mode=lost] .level-tabs{display:none!important}
+ body:not([data-mode=edit]) .app{grid-template-columns:1fr;grid-template-rows:40px minmax(0,1fr) 58px}
+ body:not([data-mode=edit]) .lab-panel{grid-column:1;grid-row:2}
+ body:not([data-mode=edit]) .play-toolbar{grid-column:1;grid-row:3}
+}
+
+
+/* Keep every essential landscape control within its narrow dock. */
+@media(max-width:1100px) and (max-height:620px) and (orientation:landscape) and (pointer:coarse),(max-width:760px) and (max-height:520px) and (orientation:landscape){
+ .parts-panel:has(#selection-controls:not([hidden])) .panel-heading{height:36px!important;min-height:36px!important;flex-wrap:nowrap}
+ .parts-panel:has(#selection-controls:not([hidden])) .panel-heading h2{display:none}
+ .parts-panel:has(#selection-controls:not([hidden])) .part-categories{order:0;width:auto}
+ .parts-panel:has(#selection-controls:not([hidden])) .part-categories button{min-width:38px}
+ .parts-panel:has(#selection-controls:not([hidden])) .mobile-example{font-size:10px;min-width:60px}
+ #selection-controls .mechanic-options{flex-wrap:nowrap!important;min-height:38px}
+ .mechanic-options>span{width:auto;font-size:9px;margin-right:0}
+ .mechanic-options button{height:36px;min-height:36px;min-width:0;font-size:9px}
+ .play-toolbar{gap:4px;padding:5px}
+ .play-toolbar .play-actions{min-width:0;gap:4px}
+ .play-toolbar .play-button{min-width:76px;flex:1;font-size:11px;padding:3px}
+ .play-toolbar .reset-button{width:38px;min-width:38px;flex:0 0 38px;padding:0}
+ .play-toolbar .play-stats{flex:0 0 38px;min-width:38px}
+ .play-toolbar .speed-button{min-width:38px;width:38px}
+}
+
 </style>
 </head>
 <body>
@@ -354,7 +446,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     <a class="brand" href="#" aria-label="造啥都行 首页" id="home-link">
       <span class="brand-mark"><span class="brand-ball"></span><span class="brand-plank"></span></span>
       <span class="brand-type">造啥都行<span>CONTRAPTION LAB</span></span>
-      <span class="demo-tag">MOBILE 0.2</span>
+      <span class="demo-tag version-badge">V0.5</span>
     </a>
     <nav class="level-tabs" aria-label="选择关卡" id="level-tabs"></nav>
     <div class="header-actions">
@@ -370,7 +462,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   </section>
   <main class="workspace">
     <aside class="parts-panel" aria-label="零件箱及零件属性">
-      <div class="panel-heading"><h2>零件箱</h2><span class="small-tag">3 种机关</span><button class="mobile-example compact-only" id="mobile-example-btn"><svg><use href="#i-spark"/></svg>看示例</button></div>
+      <div class="panel-heading"><h2>零件箱</h2><div class="part-categories" aria-label="零件分类"><button data-category="basic" aria-pressed="true">基础</button><button data-category="mechanical" aria-pressed="false">机械</button></div><button class="mobile-example compact-only" id="mobile-example-btn"><svg><use href="#i-spark"/></svg>看示例</button></div>
       <p class="panel-note">选一个，再点击试验台放置</p>
       <div class="parts-list">
         <button class="part-card" data-tool="plank" aria-pressed="false" title="木板（快捷键 1）：点击选取，再点击试验台放置；也可以拖入">
@@ -385,6 +477,9 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
           <span class="part-art fan-art"><svg viewBox="0 0 96 58" aria-hidden="true"><rect x="20" y="6" width="43" height="43" rx="11" fill="#c6d7c0" stroke="#75936f" stroke-width="1.5"/><circle cx="41.5" cy="27.5" r="15" fill="#eef3e7" stroke="#75936f"/><g fill="#89a681"><path d="M42 26C27 7 56 11 45 26ZM43 29C61 15 58 45 44 32ZM39 30C43 52 18 36 36 28Z"/></g><circle cx="42" cy="28" r="3" fill="#57764f"/><path d="M70 19h13M69 28h18M70 37h12" stroke="#93ab87" stroke-width="2" stroke-linecap="round"/></svg></span>
           <span class="part-copy"><strong>风扇</strong><small>借阵风，换条路线</small></span><kbd>3</kbd>
         </button>
+<button class="part-card" data-tool="wheel" aria-pressed="false" hidden title="轮子（4）：滚动，也能加动力"><span class="part-art"><svg viewBox="0 0 96 58" aria-hidden="true"><circle cx="46" cy="28" r="24" fill="#4b6357" stroke="#304d3d" stroke-width="2"/><circle cx="46" cy="28" r="17" fill="#e3eacb"/><path d="M46 12v32M32 20l28 16M32 36l28-16" stroke="#82986b" stroke-width="3"/><circle cx="46" cy="28" r="5" fill="#e8a16c"/></svg></span><span class="part-copy"><strong>轮子</strong><small>滚动，也能加动力</small></span><kbd>4</kbd></button>
+<button class="part-card" data-tool="axle" aria-pressed="false" hidden title="转轴（5）：两次点选，连接零件"><span class="part-art"><svg viewBox="0 0 96 58" aria-hidden="true"><g transform="rotate(-16 46 28)"><rect x="11" y="18" width="70" height="18" rx="4" fill="#e3be85" stroke="#b08a56" stroke-width="1.5"/></g><rect x="36" y="7" width="20" height="42" rx="5" fill="#c3d4b8" stroke="#819a70" stroke-width="1.5"/><circle cx="46" cy="28" r="10" fill="#f5d099" stroke="#8d7858" stroke-width="2"/><path d="M41 28h10M46 23v10" stroke="#84663f" stroke-width="2"/></svg></span><span class="part-copy"><strong>转轴</strong><small>两次点选，连接零件</small></span><kbd>5</kbd></button>
+<button class="part-card" data-tool="rope" aria-pressed="false" hidden title="绳子（6）：两端连接，只拉不推"><span class="part-art"><svg viewBox="0 0 96 58" aria-hidden="true"><path d="M15 11C20 68 69 61 78 12" fill="none" stroke="#b08658" stroke-width="5" stroke-linecap="round"/><path d="M15 11C20 68 69 61 78 12" fill="none" stroke="#e2c08c" stroke-width="1.5" stroke-dasharray="4 4"/><circle cx="15" cy="11" r="6" fill="#e8eacc" stroke="#879d75" stroke-width="2"/><circle cx="78" cy="12" r="6" fill="#e8eacc" stroke="#879d75" stroke-width="2"/></svg></span><span class="part-copy"><strong>绳子</strong><small>两端连接，只拉不推</small></span><kbd>6</kbd></button>
       </div>
       <section class="inspector" id="inspector" aria-labelledby="inspector-title">
         <div class="inspector-heading"><strong id="inspector-title">零件设置</strong><span id="inspector-caption">未选中</span><button class="compact-only selection-close" id="deselect-btn" aria-label="取消选择或放置"><svg><use href="#i-close"/></svg></button></div>
@@ -394,6 +489,9 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
           <div class="angle-buttons"><button id="rotate-left" title="逆时针旋转 15°（Q）">↶ <span>15°</span></button><button id="rotate-right" title="顺时针旋转 15°（E）">↷ <span>15°</span></button><button id="delete-btn" title="删除选中零件（Delete）" aria-label="删除选中零件"><svg><use href="#i-trash"/></svg></button></div>
           <div class="property-row"><label for="property-slider" id="property-label">木板长度</label><output id="property-value">240</output></div>
           <input type="range" id="property-slider" min="140" max="340" step="10" value="240">
+          <div class="mechanic-options" id="plank-mode" hidden><span>木板</span><button id="static-btn" aria-pressed="true">固定</button><button id="dynamic-btn" aria-pressed="false">动态</button></div>
+          <div class="mechanic-options" id="wheel-drive" hidden><span>电机</span><button data-motor="-4" aria-pressed="false">← 左转</button><button data-motor="0" aria-pressed="true">自由</button><button data-motor="4" aria-pressed="false">右转 →</button></div>
+          <div class="mechanic-options assembly-controls" id="assembly-controls" hidden><button id="move-group-btn" aria-pressed="true">整组移动</button><button id="detach-btn">拆除连接</button></div>
           <p class="property-tip" id="property-tip">长一点，也许刚好接得住。</p>
         </div>
       </section>
@@ -403,13 +501,13 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
       <div class="lab-topbar">
         <div class="stage-status"><span class="status-pill" id="status-pill"><span></span><b id="status-text">编辑中</b></span><span class="stage-label" id="stage-label">试验台 01</span><span class="compact-only mobile-clock" id="mobile-time">0.00s</span></div>
         <div class="stage-tools"><span class="part-count" title="已使用的零件数量"><b id="part-count">1</b><span> / 8</span></span><span class="tool-divider"></span><button class="icon-button" id="undo-btn" aria-label="撤销" title="撤销（Ctrl / ⌘ + Z）"><svg><use href="#i-undo"/></svg></button><button class="icon-button" id="redo-btn" aria-label="重做" title="重做（Ctrl / ⌘ + Shift + Z）"><svg><use href="#i-redo"/></svg></button><button class="icon-button toggle-button" id="path-btn" aria-label="显示运动轨迹" title="显示运动轨迹" aria-pressed="true"><svg><use href="#i-path"/></svg></button><button class="icon-button toggle-button" id="grid-btn" aria-label="显示辅助网格" title="显示辅助网格" aria-pressed="true"><svg><use href="#i-grid"/></svg></button><button class="icon-button" id="clear-btn" aria-label="清空零件" title="清空零件（可以撤销）"><svg><use href="#i-trash"/></svg></button><button class="icon-button compact-only" id="more-btn" aria-label="更多试验台选项" aria-expanded="false" aria-controls="more-menu"><svg><use href="#i-more"/></svg></button></div>
-        <div class="mobile-menu compact-only" id="more-menu" hidden><button id="mobile-path-btn" aria-pressed="true"><svg><use href="#i-path"/></svg>显示运动轨迹<span>开</span></button><button id="mobile-grid-btn" aria-pressed="true"><svg><use href="#i-grid"/></svg>显示辅助网格<span>开</span></button><button id="install-app-btn"><svg><use href="#i-install"/></svg>添加到主屏幕<span>像 App 一样打开</span></button><button id="mobile-clear-btn"><svg><use href="#i-trash"/></svg>清空所有零件<span>可撤销</span></button></div>
+        <div class="mobile-menu compact-only" id="more-menu" hidden><button id="mobile-path-btn" aria-pressed="true"><svg><use href="#i-path"/></svg>显示运动轨迹<span>开</span></button><button id="mobile-grid-btn" aria-pressed="true"><svg><use href="#i-grid"/></svg>显示辅助网格<span>开</span></button><button id="update-app-btn"><svg><use href="#i-reset"/></svg>检查更新<span id="app-version">V0.5.0</span></button><button id="install-app-btn"><svg><use href="#i-install"/></svg>添加到主屏幕<span>像 App 一样打开</span></button><button id="mobile-clear-btn"><svg><use href="#i-trash"/></svg>清空所有零件<span>可撤销</span></button></div>
       </div>
       <div class="board-wrap" id="board-wrap">
         <canvas id="board" tabindex="0" aria-label="物理游戏画布。点选零件，再点画布放置；拖动零件移动；双指缩放和平移。选中后可用下方按钮旋转。电脑也可用 Q、E 旋转。" aria-describedby="canvas-help">你的浏览器不支持 Canvas。请使用支持 Canvas 的现代浏览器。</canvas>
         <span class="board-corner-label"><span></span>想法不必合理，物理说了算。</span>
         <div class="view-controls" role="group" aria-label="画布视图"><button id="zoom-out" aria-label="缩小画布"><svg><use href="#i-minus"/></svg></button><button id="zoom-fit" aria-label="查看完整试验台" title="回到全景"><span id="zoom-value">全景</span></button><button id="zoom-in" aria-label="放大画布"><svg><use href="#i-plus"/></svg></button></div>
-        <span class="gesture-hint compact-only" id="gesture-hint">双指缩放 · 拖动画面 · 实验自动跟球</span>
+        <span class="gesture-hint compact-only" id="gesture-hint">双指缩放 · 空白处平移</span>
         <div id="placement-banner" class="placement-banner" hidden>点击放置 · Q / E 旋转 · Esc 取消</div>
         <div class="result-card" id="result-card" role="status" hidden>
           <div class="result-icon" id="result-icon"><svg><use href="#i-check"/></svg></div>
@@ -431,9 +529,15 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   <div class="eyebrow"><span class="tiny-dot"></span>发明家入门指南</div>
   <h2>造得离谱，也能靠谱。</h2><p class="dialog-lead">目标只有一个：让橙色小球落进绿色篮筐，并停留片刻。</p>
   <div class="help-steps"><div><b>01</b><p><strong>搭建你的机关</strong>选择零件，再点画布放置；也可以直接把零件拖进去。点同一零件按钮可取消放置。</p></div><div><b>02</b><p><strong>给它一点调整</strong>拖动移动，用下方按钮旋转和删除，长按角度按钮可连续旋转。电脑也可用 Q / E 和 Delete。</p></div><div><b>03</b><p><strong>让物理接手</strong>点「开始实验」观看。手机上再点同一按钮即可暂停或继续；「返回编辑」会保留上一轮轨迹。电脑也可按空格或 R。</p></div></div>
-  <div class="help-note"><strong>关于这个 Demo</strong><p>这是“小球＋固定机关”的玩法验证版。木板、弹簧和风扇固定在试验台上；弹簧和风扇会主动给小球施力。不是完整的结构破坏或多刚体沙盒。</p><p>触屏技巧：双指捏合缩放、双指或空白处拖动平移。手机编辑时会自动计算最佳取景，让起点和终点保持可见并把地面贴在场景底部；开始实验后镜头会跟随小球，接近画面边缘会提前追踪，接近终点时自动把终点带入视野。手动拖动或缩放会暂时接管镜头；点「全景」可查看完整试验台。游戏不会上传布局；慢放不改变物理参数。</p></div>
+  <div class="help-note"><strong>机械连接怎么做</strong><p>转轴：先点轮子或动态木板上的位置，再点另一个零件；第二次点空白处则钉在第一个点。绳子：依次点两个端点，点零件就跟着它走，点空白处则固定。至少一端连接零件。选中零件后可“拆除连接”；删除零件也会删除与它相连的连接。所有操作支持撤销。点轴心可选中转轴；点轮子边缘可选中轮子。</p><strong>关于 V0.5.0</strong><p>V0.5「机械时代」支持动态木板、轮子、转轴和绳子。木板默认固定，选中后可切换动态；轮子可选自由轮或左右电机。电机需要连接转轴才能驱动。弹簧和风扇仍是固定的主动机关。绳子是无质量拉力连接，不会与地形缠绕；转轴组件内部不互相碰撞。本作使用游戏化物理，不用于工程计算。</p><p>触屏技巧：双指捏合缩放、双指或空白处拖动平移。手机编辑时会自动计算最佳取景，让起点和终点保持可见并把地面贴在场景底部；开始实验后镜头会跟随小球，接近画面边缘会提前追踪，接近终点时自动把终点带入视野。手动拖动或缩放会暂时接管镜头；点「全景」可查看完整试验台。游戏不会上传布局；慢放不改变物理参数。</p></div>
   <button class="primary-button dialog-start" id="help-start">懂了，开始发明 <svg><use href="#i-arrow"/></svg></button>
 </dialog>
+
+
+
+
+
+
 <script>
 /*
  * 造啥都行 / Contraption Lab — compact circle-versus-OBB physics.
@@ -576,6 +680,201 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
 
 </script>
 <script>
+/*
+ * Contraption Lab v0.5 — self-contained mechanical solver.
+ * Units: logical pixels, seconds, arbitrary consistent mass units; dt = 1/240 s.
+ * Circle/OBB + SAT contacts, sequential impulses, Coulomb friction,
+ * revolute anchors, tension-only massless ropes. Game physics, not engineering.
+ * Static-only layouts retain the unchanged v0.4.1 solver for compatibility.
+ */
+(function(root,factory){
+ if(typeof module==='object'&&module.exports)module.exports=factory(require('./legacy-physics.js'));
+ else root.LabPhysics=factory(root.LabPhysics);
+})(typeof globalThis!=='undefined'?globalThis:this,function(L){
+'use strict';
+const {W,H,DT,G,R,DEG,clamp,clone}=L;
+const isLink=p=>p.type==='axle'||p.type==='rope';
+const isDynamic=p=>p.type==='wheel'||(p.type==='plank'&&p.dynamic===true);
+const cross=(a,b)=>a.x*b.y-a.y*b.x;
+const dot=(a,b)=>a.x*b.x+a.y*b.y;
+const sub=(a,b)=>({x:a.x-b.x,y:a.y-b.y});
+const add=(a,b)=>({x:a.x+b.x,y:a.y+b.y});
+const mul=(a,s)=>({x:a.x*s,y:a.y*s});
+const rot=(p,a)=>({x:p.x*Math.cos(a)-p.y*Math.sin(a),y:p.x*Math.sin(a)+p.y*Math.cos(a)});
+function part(type,x,y,angle=0,extra={}){return Object.assign(L.part(type,x,y,angle),{dynamic:false,radius:34,motor:0},extra);}
+function dimensions(p){return p.type==='wheel'?[p.radius*2,p.radius*2]:isLink(p)?[20,20]:L.dimensions(p);}
+function hitPart(x,y,p,margin=9){if(p.type==='wheel')return Math.hypot(x-p.x,y-p.y)<=p.radius+margin;const q=L.localPoint(x,y,p),[w,h]=dimensions(p);return Math.abs(q.x)<=w/2+margin&&Math.abs(q.y)<=h/2+margin;}
+function anchorPoint(e,items){
+ if(!e)return {x:0,y:0};
+ if(!e.body)return {x:e.x,y:e.y};
+ const p=items.find(p=>p.id===e.body);
+ return p?add(p,rot(e,p.angle)):{x:e.x,y:e.y};
+}
+function endpoint(p,point){return p?Object.assign({body:p.id},L.localPoint(point.x,point.y,p)):{body:null,x:point.x,y:point.y};}
+function connection(type,a,b,items,extra={}){
+ const A=anchorPoint(a,items),B=anchorPoint(b,items);
+ return part(type,(A.x+B.x)/2,(A.y+B.y)/2,0,{a:clone(a),b:clone(b),length:type==='rope'?Math.max(24,Math.hypot(A.x-B.x,A.y-B.y)):0,...extra});
+}
+function bodyFrom(p,ball=false){
+ const circle=ball||p.type==='wheel',r=ball?R:p.radius,[w,h]=circle?[r*2,r*2]:dimensions(p);
+ const fixed=!ball&&!isDynamic(p),mass=ball?1:Math.max(.2,(circle?Math.PI*r*r:w*h)*.001);
+ return {id:p.id,part:p,x:p.x,y:p.y,a:p.angle||0,vx:0,vy:0,omega:0,circle,r:circle?r:0,w,h,
+ invM:fixed?0:1/mass,invI:fixed?0:1/(circle?mass*r*r/2:mass*(w*w+h*h)/12),
+ friction:circle&&!ball?.85:ball?.24:.48,restitution:ball?.08:.03,group:null};
+}
+function rectBody(r,id){return {id,x:r.x,y:r.y,a:r.a||0,w:r.w,h:r.h,r:0,circle:false,invM:0,invI:0,vx:0,vy:0,omega:0,friction:.65,restitution:.03,part:{type:'terrain'}};}
+function vertices(b){return [[-1,-1],[1,-1],[1,1],[-1,1]].map(([x,y])=>add(b,rot({x:x*b.w/2,y:y*b.h/2},b.a)));}
+function inside(p,b){const q=rot(sub(p,b),-b.a);return Math.abs(q.x)<=b.w/2+.02&&Math.abs(q.y)<=b.h/2+.02;}
+function boxContact(a,b){
+ const va=vertices(a),vb=vertices(b),axes=[{x:Math.cos(a.a),y:Math.sin(a.a)},{x:-Math.sin(a.a),y:Math.cos(a.a)},{x:Math.cos(b.a),y:Math.sin(b.a)},{x:-Math.sin(b.a),y:Math.cos(b.a)}];
+ let depth=Infinity,n;
+ for(const axis of axes){
+  const pa=va.map(v=>dot(v,axis)),pb=vb.map(v=>dot(v,axis));
+  const overlap=Math.min(Math.max(...pa),Math.max(...pb))-Math.max(Math.min(...pa),Math.min(...pb));
+  if(overlap<=0)return null;
+  if(overlap<depth){depth=overlap;n=dot(sub(a,b),axis)<0?mul(axis,-1):axis;}
+ }
+ const pts=[...va.filter(v=>inside(v,b)),...vb.filter(v=>inside(v,a))];
+ for(let i=0;i<4;i++)for(let j=0;j<4;j++){
+  const p=va[i],q=vb[j],r=sub(va[(i+1)%4],p),s=sub(vb[(j+1)%4],q),d=cross(r,s);
+  if(Math.abs(d)<1e-8)continue;
+  const t=cross(sub(q,p),s)/d,u=cross(sub(q,p),r)/d;
+  if(t>=0&&t<=1&&u>=0&&u<=1)pts.push(add(p,mul(r,t)));
+ }
+ if(!pts.length)return null;
+ const tangent={x:-n.y,y:n.x};pts.sort((p,q)=>dot(p,tangent)-dot(q,tangent));
+ const lo=pts[0],hi=pts[pts.length-1];
+ const plane=(Math.min(...va.map(p=>dot(p,n)))+Math.max(...vb.map(p=>dot(p,n))))/2;
+ const project=p=>add(p,mul(n,plane-dot(p,n)));
+ return {n,depth,points:Math.hypot(hi.x-lo.x,hi.y-lo.y)>2?[project(lo),project(hi)]:[project(lo)]};
+}
+function collide(a,b){
+ if(a.circle&&b.circle){
+  const d=sub(a,b),dist=Math.hypot(d.x,d.y),depth=a.r+b.r-dist;if(depth<=0)return null;
+  const n=dist>1e-7?mul(d,1/dist):{x:0,y:-1};return {n,depth,points:[add(a,mul(n,-a.r+depth/2))]};
+ }
+ if(a.circle&&!b.circle){
+  const q=L.contact({x:a.x,y:a.y,r:a.r},{x:b.x,y:b.y,w:b.w,h:b.h,a:b.a});
+  if(!q)return null;const n={x:q.nx,y:q.ny};return {n,depth:q.penetration,points:[add(a,mul(n,-a.r+q.penetration/2))]};
+ }
+ if(!a.circle&&b.circle){const c=collide(b,a);if(c)c.n=mul(c.n,-1);return c;}
+ return boxContact(a,b);
+}
+function velocity(b,r){return {x:b.vx-b.omega*r.y,y:b.vy+b.omega*r.x};}
+function impulse(b,r,j){if(!b.invM)return;b.vx+=j.x*b.invM;b.vy+=j.y*b.invM;b.omega+=cross(r,j)*b.invI;}
+function shift(b,r,j){if(!b.invM)return;b.x+=j.x*b.invM;b.y+=j.y*b.invM;b.a+=cross(r,j)*b.invI;}
+function getContacts(sim){
+ const out=[];
+ for(let i=0;i<sim.bodies.length;i++)for(let j=i+1;j<sim.bodies.length;j++){
+  const a=sim.bodies[i],b=sim.bodies[j];if(!a.invM&&!b.invM)continue;
+  if(a.group&&a.group===b.group)continue;
+  const ra=a.circle?a.r:Math.hypot(a.w,a.h)/2,rb=b.circle?b.r:Math.hypot(b.w,b.h)/2;
+  if(Math.abs(a.x-b.x)>ra+rb||Math.abs(a.y-b.y)>ra+rb)continue;
+  const c=collide(a,b);if(!c)continue;
+  for(const p of c.points){const rA=sub(p,a),rB=sub(p,b),vn=dot(sub(velocity(a,rA),velocity(b,rB)),c.n);
+   out.push({a,b,p,n:c.n,depth:c.depth,rA,rB,jN:0,jT:0,bounce:vn< -80?-Math.max(a.restitution,b.restitution)*vn:0});
+  }
+ }
+ return out;
+}
+function solveContact(c){
+ const {a,b,n,rA,rB}=c,t={x:-n.y,y:n.x};let v=sub(velocity(a,rA),velocity(b,rB));
+ const kn=a.invM+b.invM+cross(rA,n)**2*a.invI+cross(rB,n)**2*b.invI;if(kn<1e-10)return;
+ let j=(c.bounce-dot(v,n))/kn,old=c.jN;c.jN=Math.max(0,old+j);j=c.jN-old;
+ impulse(a,rA,mul(n,j));impulse(b,rB,mul(n,-j));v=sub(velocity(a,rA),velocity(b,rB));
+ const kt=a.invM+b.invM+cross(rA,t)**2*a.invI+cross(rB,t)**2*b.invI,max=Math.sqrt(a.friction*b.friction)*c.jN;old=c.jT;
+ c.jT=clamp(old-dot(v,t)/kt,-max,max);j=c.jT-old;impulse(a,rA,mul(t,j));impulse(b,rB,mul(t,-j));
+}
+const ground={x:0,y:0,a:0,vx:0,vy:0,omega:0,invM:0,invI:0};
+function jointData(j){
+ const a=j.bodyA||ground,b=j.bodyB||ground,rA=j.bodyA?rot(j.part.a,a.a):{x:j.part.a.x,y:j.part.a.y},rB=j.bodyB?rot(j.part.b,b.a):{x:j.part.b.x,y:j.part.b.y};
+ return {a,b,rA,rB,A:add(a,rA),B:add(b,rB)};
+}
+function solveJoint(j,position=false,dt=DT){
+ const {a,b,rA,rB,A,B}=jointData(j),delta=sub(A,B),v=sub(velocity(a,rA),velocity(b,rB)),sum=a.invM+b.invM;
+ if(sum===0)return;const apply=position?shift:impulse;
+ if(j.part.type==='rope'){
+  const dist=Math.hypot(delta.x,delta.y);if(dist<1e-6)return;const n=mul(delta,1/dist),error=dist-j.part.length;
+  if(error<-.2)return; // Loose ropes cannot push.
+  const k=sum+cross(rA,n)**2*a.invI+cross(rB,n)**2*b.invI;
+  const mag=position?Math.min(0,-Math.max(0,error)*.65/k):Math.min(0,-(dot(v,n)+Math.max(0,error)*.08/dt)/k);
+  apply(a,rA,mul(n,mag));apply(b,rB,mul(n,-mag));
+ }else{
+  const xx=sum+rA.y*rA.y*a.invI+rB.y*rB.y*b.invI,yy=sum+rA.x*rA.x*a.invI+rB.x*rB.x*b.invI,xy=-rA.x*rA.y*a.invI-rB.x*rB.y*b.invI,d=xx*yy-xy*xy;
+  if(d<1e-10)return;const C=position?mul(delta,.6):add(v,mul(delta,.06/dt)),J={x:(-yy*C.x+xy*C.y)/d,y:(xy*C.x-xx*C.y)/d};
+  apply(a,rA,J);apply(b,rB,mul(J,-1));
+ }
+}
+function createMechanical(level,items){
+ const copied=clone(items),sim={level:clone(level),items:copied,mechanical:true,time:0,steps:0,state:'running',goalHold:0,idle:0,reason:'',events:[],cooldowns:Object.create(null),path:[],impacts:0,maxSpeed:0,bodies:[],bodyMap:Object.create(null),joints:[]};
+ const bb=bodyFrom({id:'$ball',type:'ball',...level.start},true);bb.vx=level.start.vx||0;sim.bodies.push(bb);sim.ballBody=bb;
+ level.terrain.forEach((t,i)=>sim.bodies.push(rectBody(t,'$terrain-'+i)));
+ L.goalRects(level.goal).forEach((t,i)=>sim.bodies.push(rectBody(t,'$goal-'+i)));
+ for(const p of copied){if(isLink(p))continue;const b=bodyFrom(p);sim.bodyMap[p.id]=b;sim.bodies.push(b);}
+ for(const p of copied){if(!isLink(p)||!p.a||!p.b)continue;if((p.a.body&&!sim.bodyMap[p.a.body])||(p.b.body&&!sim.bodyMap[p.b.body]))continue;sim.joints.push({part:p,bodyA:sim.bodyMap[p.a.body],bodyB:sim.bodyMap[p.b.body]});}
+ // Axle-linked assemblies ignore self-collision; they still collide with the ball and ground.
+ const parent=Object.create(null);for(const id in sim.bodyMap)parent[id]=id;
+ const find=id=>{while(parent[id]!==id)id=parent[id];return id;};
+ for(const j of sim.joints)if(j.part.type==='axle'&&j.bodyA&&j.bodyB)parent[find(j.bodyA.id)]=find(j.bodyB.id);
+ for(const id in sim.bodyMap)sim.bodyMap[id].group=find(id);
+ sync(sim);return sim;
+}
+function sync(sim){
+ const b=sim.ballBody;sim.ball={x:b.x,y:b.y,vx:b.vx,vy:b.vy,r:b.r,rotation:b.a,omega:b.omega};
+ for(const p of sim.items){const b=sim.bodyMap[p.id];if(b){p.x=b.x;p.y=b.y;p.angle=b.a;}}
+ for(const p of sim.items.filter(isLink)){const A=anchorPoint(p.a,sim.items),B=anchorPoint(p.b,sim.items);p.x=(A.x+B.x)/2;p.y=(A.y+B.y)/2;}
+}
+function stepMechanical(sim,dt){
+ if(sim.state!=='running')return sim;sim.time+=dt;sim.steps++;sim.events=[];
+ for(const b of sim.bodies){
+  if(!b.invM)continue;b.vy+=G*dt;
+  for(const p of sim.items){if(p.type!=='fan')continue;const q=L.localPoint(b.x,b.y,p);if(q.x<=18||q.x>=470||Math.abs(q.y)>=75)continue;
+   const strength=p.power*(1-.3*q.x/470)*(1-.4*(q.y/75)**2);b.vx+=Math.cos(p.angle)*strength*dt;b.vy+=Math.sin(p.angle)*strength*dt;
+  }
+  const drag=Math.exp(-.035*dt);b.vx*=drag;b.vy*=drag;b.omega*=Math.exp(-.015*dt);
+  if(b.part.type==='wheel'&&b.part.motor){
+   const target=b.part.motor,linked=sim.joints.find(j=>j.part.type==='axle'&&(j.bodyA===b||j.bodyB===b)),other=linked?(linked.bodyA===b?linked.bodyB:linked.bodyA):null;
+   const rel=b.omega-(other?.omega||0),k=b.invI+(other?.invI||0),torque=linked?clamp((target-rel)/(k||1),-9000*dt,9000*dt):0;
+   b.omega+=torque*b.invI;if(other&&other.invM)other.omega-=torque*other.invI;
+  }
+  const speed=Math.hypot(b.vx,b.vy);if(speed>1900){b.vx*=1900/speed;b.vy*=1900/speed;}b.omega=clamp(b.omega,-28,28);
+  b.x+=b.vx*dt;b.y+=b.vy*dt;b.a+=b.omega*dt;
+ }
+ const ball=sim.ballBody;
+ for(const p of sim.items){if(p.type!=='spring')continue;const box=sim.bodyMap[p.id],c=collide(ball,box);if(!c)continue;
+  const n={x:Math.sin(p.angle),y:-Math.cos(p.angle)},vn=ball.vx*n.x+ball.vy*n.y;
+  if(dot(c.n,n)>.65&&vn< -12&&sim.time-(sim.cooldowns[p.id]??-10)>.16){
+   const tangent=ball.vx*Math.cos(p.angle)+ball.vy*Math.sin(p.angle);ball.vx=tangent*.5*Math.cos(p.angle)+n.x*p.power;ball.vy=tangent*.5*Math.sin(p.angle)+n.y*p.power;
+   sim.cooldowns[p.id]=sim.time;sim.events.push({type:'spring',x:ball.x,y:ball.y,power:p.power,id:p.id});
+  }
+ }
+ const contacts=getContacts(sim);
+ for(let i=0;i<12;i++){for(const j of sim.joints)solveJoint(j,false,dt);for(const c of contacts)solveContact(c);}
+ for(let i=0;i<5;i++){
+  for(const c of getContacts(sim)){const {a,b,n,rA,rB}=c,k=a.invM+b.invM+cross(rA,n)**2*a.invI+cross(rB,n)**2*b.invI;if(k<1e-10)continue;
+   const v=Math.max(0,c.depth-.08)*.35/k;shift(a,rA,mul(n,v));shift(b,rB,mul(n,-v));}
+  for(const j of sim.joints)solveJoint(j,true,dt);
+ }
+ sync(sim);const b=sim.ball;
+ if(!sim.bodies.every(o=>[o.x,o.y,o.a,o.vx,o.vy,o.omega].every(Number.isFinite))){sim.state='lost';sim.reason='连接受力过大，请检查重叠零件与绳长。';return sim;}
+ if(sim.steps%4===0){sim.path.push({x:b.x,y:b.y});if(sim.path.length>1500)sim.path.shift();}
+ sim.maxSpeed=Math.max(sim.maxSpeed,Math.hypot(b.vx,b.vy));
+ const g=sim.level.goal,inGoal=b.x>g.x-45&&b.x<g.x+45&&b.y>g.y-66&&b.y<g.y-10;
+ sim.goalHold=inGoal&&Math.hypot(b.vx,b.vy)<150?sim.goalHold+dt:0;
+ if(sim.goalHold>=.5){sim.state='won';sim.events.push({type:'win',x:b.x,y:b.y});}
+ else if(b.y>H+65||b.x< -80||b.x>W+80){sim.state='lost';sim.reason='小球溜走了。检查轮子方向、接球坡度或绳长。';}
+ else if(sim.time>32){sim.state='lost';sim.reason='这次没能抵达。调整连接或动力，再试一次。';}
+ // A stationary ball may still be collected by an approaching machine.
+ return sim;
+}
+function create(level,items){return items.some(p=>isLink(p)||isDynamic(p))?createMechanical(level,items):L.create(level,items);}
+function step(sim,dt=DT){return sim.mechanical?stepMechanical(sim,dt):L.step(sim,dt);}
+function run(level,items,seconds=34){const s=create(level,items);while(s.state==='running'&&s.time<seconds)step(s);return s;}
+return {...L,part,dimensions,hitPart,isLink,isDynamic,anchorPoint,endpoint,connection,create,step,run,mechanicalVersion:'0.5.0'};
+});
+
+</script>
+<script>
 (function(root, factory) {
   if (typeof module === 'object' && module.exports) module.exports = factory(require('./physics.js'));
   else root.LabLevels = factory(root.LabPhysics);
@@ -610,6 +909,38 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
 
 </script>
 <script>
+(function(root,factory){if(typeof module==='object'&&module.exports)module.exports=factory(require('./physics.js'));else root.LabLevels.push(...factory(root.LabPhysics));})(typeof globalThis!=='undefined'?globalThis:this,function(P){
+ const plank=(id,x,y,length,deg,dynamic=false)=>P.part('plank',x,y,deg*P.DEG,{id,length,dynamic});
+ const wheel=(id,x,y,radius=32,motor=0)=>P.part('wheel',x,y,0,{id,radius,motor});
+ const pin=(id,a,b,at,items)=>P.connection('axle',P.endpoint(a,at),P.endpoint(b,at),items,{id});
+ const rope=(id,a,pa,b,pb,items)=>P.connection('rope',P.endpoint(a,pa),P.endpoint(b,pb),items,{id});
+ const car=()=>{
+  const base=plank('car-deck',260,386,206,0,true),left=wheel('wheel-l',187,420,32,4),right=wheel('wheel-r',333,420,32,4),all=[base,left,right];
+  all.push(pin('axle-l',left,base,left,all),pin('axle-r',right,base,right,all));return all;
+ };
+ const pivot=()=>{const deck=plank('swing-deck',482,352,330,0,true),all=[deck];all.push(pin('pivot-ground',deck,null,{x:425,y:352},all));return all;};
+ const suspension=()=>{
+  const deck=plank('hanging-deck',463,357,330,14,true),all=[deck],l=P.anchorPoint({body:deck.id,x:-148,y:0},all),r=P.anchorPoint({body:deck.id,x:148,y:0},all);
+  all.push(rope('rope-left',null,{x:l.x,y:137},deck,l,all),rope('rope-right',null,{x:r.x,y:137},deck,r,all));return all;
+ };
+ return [
+ {id:'little-delivery-car',name:'造辆车',tag:'机械 · 轮子与转轴',title:'这次，让路自己动。',mechanical:true,
+ description:'动态木板当车身，两个轮子用转轴连接。让小车从后面推动橙色小球，把它送进篮筐。',hint:'先看示例：木板切到动态 → 轮子连车身 → 开启向右电机。转轴相连的组件可以整体拖动。',budget:16,par:5,
+ start:{x:435,y:427},goal:{x:810,y:548},terrain:[{x:370,y:532,w:740,h:120},{x:902,y:600,w:196,h:40}],
+ initial:[plank('car-starter',260,386,206,0,true)],example:car()},
+ {id:'turning-bridge',name:'转起来',tag:'机械 · 地面转轴',title:'一块木板，也有脾气。',mechanical:true,
+ description:'用转轴把动态木板钉住，但允许它转动。借助重力，让它变成接球的摇摆坡道。',hint:'转轴：先点动态木板，再点空白处，会在第一个点钉住。试试改变转轴位置。',budget:14,par:2,
+ start:{x:353,y:155},goal:{x:781,y:526},terrain:[{x:98,y:570,w:196,h:100},{x:610,y:511,w:70,h:218},{x:861,y:585,w:278,h:70}],
+ initial:[plank('pivot-starter',482,352,330,0,true)],example:pivot()},
+ {id:'suspended-route',name:'吊起来',tag:'机械 · 绳索承重',title:'路，可以悬在空中。',mechanical:true,
+ description:'两根绳子吊起动态木板，给小球搭一条悬空的路。绳子只拉不推，松了会自然下垂。',hint:'绳子：依次点两个端点；点木板会跟随木板，点空白处就是固定挂点。调整两根绳长，改变坡度。',budget:16,par:3,
+ start:{x:344,y:190},goal:{x:736,y:526},terrain:[{x:93,y:578,w:186,h:84},{x:835,y:585,w:330,h:70}],
+ initial:[plank('rope-starter',463,357,330,14,true)],example:suspension()}
+ ];
+});
+
+</script>
+<script>
 /* 造啥都行 — presentation, editor, persistence and game loop. No network access required. */
 (() => {
   'use strict';
@@ -618,14 +949,17 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   const $ = id => document.getElementById(id);
   const canvas = $('board'), wrap = $('board-wrap'), ctx = canvas.getContext('2d');
   if (!ctx) { $('toast').hidden = false; $('toast').textContent = '当前浏览器无法使用 Canvas，请换一个浏览器打开。'; return; }
-  const NAMES = { plank: '木板', spring: '弹簧', fan: '风扇' };
+  const NAMES = { plank:'木板', spring:'弹簧', fan:'风扇', wheel:'轮子', axle:'转轴', rope:'绳子' };
+  let linkPending=null,category='basic',groupMove=true;
   const KEY = 'contraption-lab-v1';
   const compactQuery = window.matchMedia('(max-width:760px), (pointer:coarse) and (max-width:1100px)');
   const compact = () => compactQuery.matches;
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   let storage = { drafts: {}, wins: {}, level: 0 }, storageOK = true;
   try {
-    const loaded = JSON.parse(localStorage.getItem(KEY) || 'null');
+    const raw=localStorage.getItem(KEY);
+    if(raw&&!localStorage.getItem(KEY+'-backup-v041'))localStorage.setItem(KEY+'-backup-v041',raw);
+    const loaded=JSON.parse(raw||'null');
     if (loaded && typeof loaded === 'object') {
       storage.drafts = loaded.drafts && typeof loaded.drafts === 'object' ? loaded.drafts : {};
       storage.wins = loaded.wins && typeof loaded.wins === 'object' ? loaded.wins : {};
@@ -650,21 +984,88 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   const icon = name => `<svg aria-hidden="true"><use href="#i-${name}"/></svg>`;
 
   function sanitizeParts(data) {
-    if (!Array.isArray(data) || data.length > level().budget) return null;
-    const out = [], ids = new Set();
-    for (const p of data) {
-      if (!p || !NAMES[p.type] || ![p.x, p.y, p.angle, p.length, p.power].every(Number.isFinite)) return null;
-      const id = typeof p.id === 'string' && p.id.length < 80 && !ids.has(p.id) ? p.id : P.part(p.type, 0, 0).id;
-      ids.add(id);
-      const q = { id, type: p.type, x: P.clamp(p.x, 0, P.W), y: P.clamp(p.y, 0, P.H), angle: normalize(p.angle),
-        length: P.clamp(p.length, 140, 340), power: P.clamp(p.power, p.type === 'spring' ? 450 : 400, p.type === 'spring' ? 1050 : 2400) };
-      // Non-plank lengths are defined by their type, not by the range control.
-      if (q.type !== 'plank') q.length = q.type === 'spring' ? 88 : 52;
-      out.push(q);
+    if(!Array.isArray(data)||data.length>level().budget)return null;
+    const out=[],ids=new Set();
+    for(const p of data){
+      if(!p||!NAMES[p.type]||typeof p.id!=='string'||p.id.length>80||ids.has(p.id))return null;
+      ids.add(p.id);if(P.isLink(p))continue;
+      if(![p.x,p.y,p.angle,p.length,p.power].every(Number.isFinite))return null;
+      const q=P.part(p.type,P.clamp(p.x,0,P.W),P.clamp(p.y,0,P.H),normalize(p.angle),{
+        id:p.id,length:P.clamp(p.length,140,340),power:P.clamp(p.power,p.type==='spring'?450:400,p.type==='spring'?1050:2400),
+        dynamic:p.type==='plank'&&p.dynamic===true,radius:Number.isFinite(p.radius)?P.clamp(p.radius,24,60):34,motor:Number.isFinite(p.motor)?P.clamp(p.motor,-8,8):0
+      });
+      if(q.type!=='plank')q.length=q.type==='spring'?88:52;out.push(q);
+    }
+    for(const p of data.filter(P.isLink)){
+      const valid=e=>e&&[e.x,e.y].every(Number.isFinite)&&Math.abs(e.x)<2500&&Math.abs(e.y)<2500&&(e.body===null||out.some(q=>q.id===e.body&&!P.isLink(q)));
+      if(!valid(p.a)||!valid(p.b)||p.a.body===p.b.body)continue;
+      if(p.type==='rope'&&!Number.isFinite(p.length))continue;
+      out.push(P.connection(p.type,p.a,p.b,out,{id:p.id,length:p.type==='rope'?P.clamp(p.length,24,1100):0}));
     }
     return out;
   }
+  function refreshLinks(){
+    for(const p of items.filter(P.isLink)){const a=P.anchorPoint(p.a,items),b=P.anchorPoint(p.b,items);p.x=(a.x+b.x)/2;p.y=(a.y+b.y)/2;}
+  }
+  function chooseCategory(next){
+    category=next;
+    document.querySelectorAll('[data-category]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.category===category)));
+    document.querySelectorAll('.part-card').forEach(b=>b.hidden=(['wheel','axle','rope'].includes(b.dataset.tool)?'mechanical':'basic')!==category);
+  }
+  function assembly(id){
+    const ids=new Set([id]);if(!groupMove)return ids;
+    let again=true;
+    while(again){again=false;for(const j of items.filter(p=>p.type==='axle')){
+      const a=j.a.body,b=j.b.body;if(a&&b&&(ids.has(a)||ids.has(b))){if(!ids.has(a)||!ids.has(b))again=true;ids.add(a);ids.add(b);}
+    }}return ids;
+  }
+  function transformAssembly(id,before,dx=0,dy=0,angle=0){
+    const ids=assembly(id),pivot=before.find(p=>p.id===id),co=Math.cos(angle),si=Math.sin(angle);
+    const transform=q=>({x:pivot.x+(q.x-pivot.x)*co-(q.y-pivot.y)*si+dx,y:pivot.y+(q.x-pivot.x)*si+(q.y-pivot.y)*co+dy});
+    for(const p of items){const prev=before.find(q=>q.id===p.id);if(!prev)continue;
+      if(ids.has(p.id)&&!P.isLink(p)){Object.assign(p,transform(prev));p.angle=normalize(prev.angle+angle);}
+      if(p.type==='axle'&&groupMove&&(ids.has(p.a.body)||ids.has(p.b.body))){
+        if(!p.a.body)Object.assign(p.a,transform(prev.a));if(!p.b.body)Object.assign(p.b,transform(prev.b));
+      }
+    }
+    if(!groupMove){for(const j of items.filter(p=>p.type==='axle')){
+      if(j.a.body===id){const world=P.anchorPoint(j.a,items);j.b=P.endpoint(items.find(p=>p.id===j.b.body),world);}
+      else if(j.b.body===id){const world=P.anchorPoint(j.b,items);j.a=P.endpoint(items.find(p=>p.id===j.a.body),world);}
+    }}
+    const members=items.filter(p=>ids.has(p.id)&&!P.isLink(p));
+    let minX=Infinity,maxX=-Infinity,minY=Infinity,maxY=-Infinity;
+    for(const p of members){const [w,h]=P.dimensions(p),co=Math.abs(Math.cos(p.angle)),si=Math.abs(Math.sin(p.angle)),hx=(w*co+h*si)/2,hy=(w*si+h*co)/2;minX=Math.min(minX,p.x-hx);maxX=Math.max(maxX,p.x+hx);minY=Math.min(minY,p.y-hy);maxY=Math.max(maxY,p.y+hy);}
+    const ox=minX<8?8-minX:maxX>P.W-8?P.W-8-maxX:0,oy=minY<64?64-minY:maxY>P.H-24?P.H-24-maxY:0;
+    if(ox||oy){for(const p of members){p.x+=ox;p.y+=oy;}for(const j of items.filter(p=>p.type==='axle'&&(ids.has(p.a.body)||ids.has(p.b.body))))for(const e of [j.a,j.b])if(!e.body){e.x+=ox;e.y+=oy;}}
+    refreshLinks();
+  }
+  function bodyAt(point,exclude=null){
+    const candidates=items.filter(p=>!P.isLink(p)&&p.id!==exclude);
+    const sorted=[...candidates.filter(p=>p.type==='wheel').reverse(),...candidates.filter(p=>p.type!=='wheel').reverse()];
+    return sorted.find(p=>P.hitPart(point.x,point.y,p,6/view.scale))||null;
+  }
+  function pickEndpoint(p,point){
+    if(!p)return {body:null,x:P.clamp(point.x,12,P.W-12),y:P.clamp(point.y,70,P.H-20)};
+    if(p.type==='wheel')return {body:p.id,x:0,y:0};
+    const q=P.localPoint(point.x,point.y,p),[w,h]=P.dimensions(p);
+    return {body:p.id,x:P.clamp(q.x,-w/2,w/2),y:P.clamp(q.y,-h/2,h/2)};
+  }
+  function connectAt(point){
+    if(!editing()||!point.inside||!['axle','rope'].includes(activeTool))return;
+    const type=activeTool,p=bodyAt(point,linkPending?.body);
+    if(!linkPending){
+      if(type==='axle'&&(!p||!P.isDynamic(p))){toast('先点轮子或动态木板；木板可在设置里切换为动态。');return;}
+      linkPending=pickEndpoint(p,point);updateUI();return;
+    }
+    const a=linkPending,b=type==='axle'?P.endpoint(p,P.anchorPoint(a,items)):pickEndpoint(p,point);
+    if(a.body===b.body){toast('至少一端要连零件，不能连回同一个零件。');return;}
+    if(type==='rope'){const A=P.anchorPoint(a,items),B=P.anchorPoint(b,items);if(Math.hypot(A.x-B.x,A.y-B.y)<24){toast('两个端点太近，再选远一点。');return;}}
+    if(items.length>=level().budget){toast('零件已满，请先删除一个。');return;}
+    const joint=P.connection(type,a,b,items);
+    mutate(()=>{items.push(joint);selectedId=joint.id;activeTool=ghost=linkPending=null;},type==='axle'?(b.body?'转轴已连接：零件可以相对旋转。':'转轴已钉住：零件可以绕它旋转。'):'绳子已连接：下方可调整最大长度。');
+  }
   function save() {
+    refreshLinks();storage.version='0.5.0';
     storage.drafts[level().id] = { parts: P.clone(items), example: usedExample };
     storage.level = levelIndex;
     try { localStorage.setItem(KEY, JSON.stringify(storage)); storageOK = true; }
@@ -681,7 +1082,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   }
   function mutate(fn, message) {
     if (!editing()) return;
-    const before = snapshot(); fn(); usedExample = false; pushHistory(before); save(); updateUI();
+    const before = snapshot(); fn(); refreshLinks(); usedExample = false; pushHistory(before); save(); updateUI();
     if (message) toast(message);
   }
   function undo(redo = false) {
@@ -689,7 +1090,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     const from = redo ? future : past, to = redo ? past : future;
     if (!from.length) return;
     to.push(snapshot()); const restored = from.pop(); items = P.clone(restored.items); usedExample = restored.example;
-    selectedId = null; activeTool = ghost = null; save(); updateUI();
+    selectedId = null; activeTool = ghost = linkPending = null; save(); updateUI();
   }
   function loadLevel(index) {
     cancelInteractions();
@@ -698,55 +1099,59 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     const draft = storage.drafts[level().id], validated = draft ? sanitizeParts(draft.parts) : null;
     items = validated || P.clone(level().initial); usedExample = !!(validated && draft.example);
     mode = 'edit'; sim = null; selectedId = null; activeTool = ghost = null; drag = cardDrag = null;
-    past = []; future = []; previousPath = []; effects = []; accumulator = 0; lastFrame = 0;
+    past = []; future = []; previousPath = []; effects = []; accumulator = 0; lastFrame = 0;linkPending=null;
+    chooseCategory(level().mechanical?'mechanical':'basic');
     resetCamera();
     $('result-card').hidden = true; $('toast').hidden = true; clearTimeout(toastTimer);
     initialized = true; save(); updateUI();
+    requestAnimationFrame(()=>{const nav=$('level-tabs'),tab=nav.children[levelIndex];if(tab)nav.scrollLeft=tab.offsetLeft-(nav.clientWidth-tab.clientWidth)/2;});
   }
   function loadExample() {
     if (!editing()) return;
     const before = snapshot(); items = P.clone(level().example); usedExample = true;
-    pushHistory(before); selectedId = null; activeTool = ghost = null; previousPath = [];
+    pushHistory(before); selectedId = null; activeTool = ghost = linkPending = null; previousPath = [];
     resetCamera(); save(); updateUI(); toast('示例就位，点「开始实验」试一试。可撤销恢复原布局。', 2700);
   }
   function clampPart(p) {
+    if(!p||P.isLink(p))return p;
     const [w, h] = P.dimensions(p), c = Math.abs(Math.cos(p.angle)), s = Math.abs(Math.sin(p.angle));
     const hw = (w * c + h * s) / 2, hh = (w * s + h * c) / 2;
     p.x = P.clamp(p.x, hw + 8, P.W - hw - 8);
     p.y = P.clamp(p.y, hh + 62, P.H - hh - 24);
     return p;
   }
-  function chooseTool(type) {
-    if (!editing()) { toast('先返回编辑，再调整你的发明。'); return; }
-    if (activeTool === type) { activeTool = ghost = null; updateUI(); return; }
-    if (items.length >= level().budget) { toast('零件数量已满。可以删掉一个，或者撤销上一步。'); return; }
-    activeTool = type; selectedId = null;
-    ghost = P.part(type, pointer.inside ? pointer.x : 500, pointer.inside ? pointer.y : 320,
-      (type === 'plank' ? 18 : type === 'spring' ? 25 : 0) * P.DEG);
-    clampPart(ghost); updateUI();
+  function chooseTool(type){
+    if(!editing()){toast('先返回编辑，再调整你的发明。');return;}
+    if(activeTool===type){activeTool=ghost=linkPending=null;updateUI();return;}
+    if(items.length>=level().budget){toast('零件已满，可以删除一个或撤销。');return;}
+    activeTool=type;selectedId=null;linkPending=null;chooseCategory(['wheel','axle','rope'].includes(type)?'mechanical':'basic');
+    if(type==='axle'||type==='rope'){ghost=null;updateUI();return;}
+    ghost=P.part(type,pointer.inside?pointer.x:500,pointer.inside?pointer.y:320,(type==='plank'?18:type==='spring'?25:0)*P.DEG);
+    clampPart(ghost);updateUI();
   }
   function placeTool(point) {
     if (!editing() || !activeTool || !point.inside || items.length >= level().budget) return;
+    if(['axle','rope'].includes(activeTool)){connectAt(point);return;}
     const p = clampPart({ ...ghost, id: P.part(activeTool, 0, 0).id, x: point.x, y: point.y });
     mutate(() => { items.push(p); selectedId = p.id; activeTool = ghost = null; });
     canvas.focus({ preventScroll: true });
   }
   function rotateSelected(degrees) {
     if (!editing()) return;
-    const p = selected(); if (!p) return;
+    const p = selected(); if (!p || P.isLink(p)) return;
     if (activeTool) { p.angle = normalize(p.angle + degrees * P.DEG); clampPart(p); updateInspector(); return; }
-    mutate(() => { p.angle = normalize(p.angle + degrees * P.DEG); clampPart(p); });
+    mutate(() => transformAssembly(p.id,P.clone(items),0,0,degrees*P.DEG));
   }
   function deleteSelected() {
     if (activeTool) { activeTool = ghost = null; updateUI(); return; }
     if (!selectedId) return;
-    mutate(() => { items = items.filter(p => p.id !== selectedId); selectedId = null; });
+    mutate(() => { items = items.filter(p => p.id !== selectedId && !(P.isLink(p) && (p.a.body===selectedId || p.b.body===selectedId))); selectedId = null; });
   }
   function start() {
     if (mode === 'running' || mode === 'paused') return;
     if (sim && sim.path.length) previousPath = sim.path.slice();
     cancelInteractions();
-    activeTool = ghost = null; drag = cardDrag = null; sim = P.create(level(), items);
+    activeTool = ghost = linkPending = null;selectedId=null; drag = cardDrag = null; sim = P.create(level(), items);
     mode = 'running'; prepareRunCamera(); effects = []; accumulator = 0; lastFrame = 0; lastSoundTime = -10;
     $('result-card').hidden = true; $('toast').hidden = true;
     resumeAudio(); updateUI(); tone(330, .05, .025);
@@ -797,6 +1202,12 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     if (!p) return;
     $('angle-value').textContent = Math.round(p.angle / P.DEG) + '°';
     const slider = $('property-slider');
+    slider.hidden=p.type==='axle';$('plank-mode').hidden=p.type!=='plank';$('wheel-drive').hidden=p.type!=='wheel';
+    $('assembly-controls').hidden=P.isLink(p)||!!activeTool;
+    $('dynamic-btn').setAttribute('aria-pressed',String(p.dynamic===true));$('static-btn').setAttribute('aria-pressed',String(!p.dynamic));
+    document.querySelectorAll('[data-motor]').forEach(b=>{b.setAttribute('aria-pressed',String(Number(b.dataset.motor)===p.motor));b.disabled=!editing();});
+    $('move-group-btn').setAttribute('aria-pressed',String(groupMove));
+    $('detach-btn').disabled=!editing()||!items.some(j=>P.isLink(j)&&(j.a.body===p.id||j.b.body===p.id));
     if (p.type === 'plank') {
       $('property-label').textContent = '木板长度'; slider.min = 140; slider.max = 340; slider.step = 10;
       slider.value = p.length; $('property-value').textContent = Math.round(p.length);
@@ -805,12 +1216,25 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
       $('property-label').textContent = '弹射力度'; slider.min = 450; slider.max = 1050; slider.step = 25;
       slider.value = p.power; $('property-value').textContent = Math.round(p.power);
       $('property-tip').textContent = '沿箭头弹射，角度和力度都很重要。';
-    } else {
+    } else if(p.type==='fan') {
       $('property-label').textContent = '风力大小'; slider.min = 400; slider.max = 2400; slider.step = 100;
       slider.value = p.power; $('property-value').textContent = (p.power / 1000).toFixed(1) + '×';
       $('property-tip').textContent = '箭头所指，是气流前进的方向。';
     }
-    ['rotate-left', 'rotate-right', 'delete-btn', 'property-slider'].forEach(id => $(id).disabled = !editing());
+    if(p.type==='wheel'){
+      $('property-label').textContent='轮子半径';slider.min=24;slider.max=60;slider.step=2;slider.value=p.radius;
+      $('property-value').textContent=p.radius;$('property-tip').textContent='自由轮不主动驱动；电机需要连接转轴。';
+    }else if(p.type==='rope'){
+      $('property-label').textContent='绳子最大长度';slider.min=24;slider.max=1100;slider.step=1;slider.value=p.length;
+      $('property-value').textContent=Math.round(p.length);$('property-tip').textContent='只拉不推；绳子不会与地形缠绕。';
+    }else if(p.type==='axle'){
+      $('property-label').textContent='转轴连接';$('property-value').textContent=p.a.body&&p.b.body?'零件 ↔ 零件':'零件 ↔ 固定点';
+      $('property-tip').textContent='连接点不分离，零件仍可绕轴旋转。';
+    }
+    if(p.type==='plank')$('property-tip').textContent=p.dynamic?'动态木板会下落、受力和转动。':'固定木板不会动，切到动态即可用于造车。';
+    ['rotate-left','rotate-right','delete-btn','property-slider','static-btn','dynamic-btn','move-group-btn'].forEach(id=>$(id).disabled=!editing());
+    $('rotate-left').disabled=$('rotate-right').disabled=!editing()||P.isLink(p);
+    $('angle-value').textContent=P.isLink(p)?'连接件':Math.round(p.angle/P.DEG)+'°';
   }
   function updateUI() {
     needsRender = true;
@@ -839,6 +1263,9 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     $('mobile-example-btn').disabled = !editing(); $('mobile-clear-btn').disabled = !editing() || !items.length;
     if (activeTool) wrap.dataset.tool = activeTool; else delete wrap.dataset.tool;
     $('placement-banner').textContent = compact() ? '点画布放置 ' + (NAMES[activeTool] || '') + ' · 再点零件可取消' : '点击放置 · Q / E 旋转 · Esc 取消';
+    if(activeTool==='axle')$('placement-banner').textContent=linkPending?'② 点车身连接，或点空白处钉住':'① 点轮子或动态木板，选转轴位置';
+    if(activeTool==='rope')$('placement-banner').textContent=linkPending?'② 点另一个端点：零件或空白挂点':'① 点第一个端点：零件或空白挂点';
+    if(!activeTool)linkPending=null;
     const turn = compact() ? 5 : 15;
     $('rotate-left').querySelector('span').textContent = turn + '°';
     $('rotate-right').querySelector('span').textContent = turn + '°';
@@ -978,15 +1405,30 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     const reach = P.dimensions(p)[0] / 2 + 28 / view.scale;
     return { x: p.x + Math.cos(p.angle) * reach, y: p.y + Math.sin(p.angle) * reach };
   }
-  function nearestPart(point, touch) {
-    let best = null, distance = Infinity;
-    // A minimum 44px touch corridor; choose the closest actual shape at overlaps.
-    for (const p of [...items].reverse()) {
-      const q = P.localPoint(point.x, point.y, p), [w, h] = P.dimensions(p);
-      const d = Math.hypot(Math.max(0, Math.abs(q.x) - w / 2), Math.max(0, Math.abs(q.y) - h / 2));
-      if (d <= (touch ? 22 : 8) / view.scale && d < distance) { best = p; distance = d; }
+  function nearestPart(point,touch){
+    // Precise pin taps select the joint; the tire rim remains a body selection target.
+    for(const p of items.filter(q=>q.type==='axle').reverse()){
+      const a=P.anchorPoint(p.a,items);if(Math.hypot(point.x-a.x,point.y-a.y)<(touch?6:5)/view.scale)return p;
     }
-    return best;
+    let best=null,distance=Infinity;
+    for(const p of items.filter(q=>!P.isLink(q)).reverse()){
+      const q=P.localPoint(point.x,point.y,p),[w,h]=P.dimensions(p);
+      const d=p.type==='wheel'?Math.max(0,Math.hypot(q.x,q.y)-p.radius):Math.hypot(Math.max(0,Math.abs(q.x)-w/2),Math.max(0,Math.abs(q.y)-h/2));
+      if(d<=(touch?18:8)/view.scale&&d<distance){best=p;distance=d;}
+    }
+    if(best)return best;
+    for(const p of items.filter(P.isLink)){
+      const a=P.anchorPoint(p.a,items),b=P.anchorPoint(p.b,items),dx=b.x-a.x,dy=b.y-a.y;
+      const t=P.clamp(((point.x-a.x)*dx+(point.y-a.y)*dy)/(dx*dx+dy*dy||1),0,1);
+      let d=Math.hypot(point.x-a.x-t*dx,point.y-a.y-t*dy);
+      if(p.type==='rope'){
+        const sag=Math.min(100,Math.sqrt(Math.max(0,p.length*p.length-dx*dx-dy*dy))*.5);d=Infinity;let prev=a;
+        for(let i=1;i<=24;i++){const u=i/24,q={x:a.x+dx*u,y:a.y+dy*u+2*(1-u)*u*sag},vx=q.x-prev.x,vy=q.y-prev.y;
+          const k=P.clamp(((point.x-prev.x)*vx+(point.y-prev.y)*vy)/(vx*vx+vy*vy||1),0,1);d=Math.min(d,Math.hypot(point.x-prev.x-k*vx,point.y-prev.y-k*vy));prev=q;
+        }
+      }
+      if(d<=(touch?14:8)/view.scale&&d<distance){best=p;distance=d;}
+    }return best;
   }
   function rollbackDrag() {
     if (drag && drag.before) { items = P.clone(drag.before.items); usedExample = drag.before.example; }
@@ -1025,12 +1467,13 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     pointer = worldPoint(e);
     const screen = localClient(e), touch = e.pointerType === 'touch';
     if (editing() && activeTool && pointer.inside) {
+      if(['axle','rope'].includes(activeTool)){drag={type:'connect',pointerId:e.pointerId,touch};needsRender=true;return;}
       ghost.x = pointer.x; ghost.y = pointer.y; clampPart(ghost);
       drag = { type: 'place', pointerId: e.pointerId, touch }; needsRender = true; return;
     }
     if (editing() && pointer.inside) {
       const current = selected();
-      if (current) {
+      if (current && !P.isLink(current)) {
         const k = knobPoint(current);
         if (Math.hypot(pointer.x - k.x, pointer.y - k.y) < (touch ? 22 : 14) / view.scale) {
           drag = { type: 'rotate', id: current.id, before: snapshot(), pointerId: e.pointerId, touch }; return;
@@ -1039,6 +1482,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
       const found = nearestPart(pointer, touch);
       selectedId = found ? found.id : null;
       if (found) {
+        if(P.isLink(found)){updateUI();return;}
         drag = { type: 'move', id: found.id, dx: pointer.x - found.x, dy: pointer.y - found.y, before: snapshot(), pointerId: e.pointerId, touch };
         updateUI(); return;
       }
@@ -1059,7 +1503,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     }
     if (!editing()) return;
     if (activeTool && ghost) { ghost.x = pointer.x; ghost.y = pointer.y; clampPart(ghost); needsRender = true; }
-    if (drag && drag.type !== 'place') {
+    if (drag && drag.type !== 'place' && drag.type !== 'connect') {
       const p = items.find(x => x.id === drag.id); if (!p) return;
       if (drag.type === 'move') {
         p.x = pointer.x - drag.dx; p.y = pointer.y - drag.dy;
@@ -1068,7 +1512,9 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
         const quantum = (e.shiftKey ? 15 : 5) * P.DEG;
         p.angle = normalize(Math.round(Math.atan2(pointer.y - p.y, pointer.x - p.x) / quantum) * quantum);
       }
-      clampPart(p); canvas.style.cursor = drag.type === 'move' ? 'grabbing' : 'crosshair'; updateInspector();
+      const original=drag.before.items.find(q=>q.id===p.id);
+      transformAssembly(p.id,drag.before.items,p.x-original.x,p.y-original.y,normalize(p.angle-original.angle));
+      canvas.style.cursor = drag.type === 'move' ? 'grabbing' : 'crosshair'; updateInspector();
     } else if (!activeTool) canvas.style.cursor = nearestPart(pointer, false) ? 'grab' : 'default';
   });
   function endPointer(e, cancelled = false) {
@@ -1079,6 +1525,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     } else if (drag && drag.pointerId === e.pointerId) {
       const ended = drag; drag = null;
       if (cancelled && ended.before) { items = P.clone(ended.before.items); usedExample = ended.before.example; }
+      else if (!cancelled && ended.type === 'connect') connectAt(worldPoint(e));
       else if (!cancelled && ended.type === 'place') placeTool(worldPoint(e));
       else if (!cancelled && ended.before) {
         if (JSON.stringify(ended.before.items) !== JSON.stringify(items)) usedExample = false;
@@ -1143,7 +1590,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   $('mobile-grid-btn').onclick = () => { $('grid-btn').onclick(); };
   $('mobile-path-btn').onclick = () => { $('path-btn').onclick(); };
   $('mobile-clear-btn').onclick = () => { $('clear-btn').click(); closeMenu(); };
-  $('deselect-btn').onclick = () => { if (!editing()) return; activeTool = ghost = null; selectedId = null; updateUI(); };
+  $('deselect-btn').onclick = () => { if (!editing()) return; activeTool = ghost = linkPending = null; selectedId = null; updateUI(); };
   $('zoom-in').onclick = () => zoomBy(1.4);
   $('zoom-out').onclick = () => zoomBy(1 / 1.4);
   $('zoom-fit').onclick = fitCamera;
@@ -1172,7 +1619,10 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   }
   function holdTurn(sign) {
     const p = selected(); if (!editing() || !p) return;
-    p.angle = normalize(p.angle + sign * (compact() ? 5 : 15) * P.DEG); clampPart(p); updateInspector();
+    if(P.isLink(p))return;
+    if(activeTool){p.angle=normalize(p.angle+sign*(compact()?5:15)*P.DEG);clampPart(p);}
+    else transformAssembly(p.id,P.clone(items),0,0,sign*(compact()?5:15)*P.DEG);
+    updateInspector();
   }
   [['rotate-left', -1], ['rotate-right', 1]].forEach(([id, sign]) => {
     const button = $(id);
@@ -1198,7 +1648,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   $('property-slider').addEventListener('input', e => {
     const p = selected(); if (!editing() || !p) return;
     if (!activeTool && !rangeBefore) rangeBefore = snapshot();
-    if (p.type === 'plank') p.length = Number(e.target.value); else p.power = Number(e.target.value);
+    if (p.type === 'plank'||p.type==='rope') p.length = Number(e.target.value); else if(p.type==='wheel')p.radius=Number(e.target.value);else p.power=Number(e.target.value);
     clampPart(p); updateInspector();
   });
   function commitRange() {
@@ -1226,11 +1676,18 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     else if (k === 'q') { e.preventDefault(); rotateSelected(e.shiftKey ? -5 : -15); }
     else if (k === 'e') { e.preventDefault(); rotateSelected(e.shiftKey ? 5 : 15); }
     else if (k === 'delete' || k === 'backspace') { if (selected()) { e.preventDefault(); deleteSelected(); } }
-    else if (['1', '2', '3'].includes(k)) chooseTool(['plank', 'spring', 'fan'][Number(k) - 1]);
-    else if (k === 'escape') { closeMenu(); setFocus(false); activeTool = ghost = null; selectedId = null; updateUI(); }
+    else if (['1','2','3','4','5','6'].includes(k)) chooseTool(['plank','spring','fan','wheel','axle','rope'][Number(k)-1]);
+    else if (k === 'escape') { closeMenu(); setFocus(false); activeTool = ghost = linkPending = null; selectedId = null; updateUI(); }
   });
   document.addEventListener('visibilitychange', () => { if (document.hidden) { cancelInteractions(); if (mode === 'running') togglePause(); save(); } lastFrame = 0; needsRender = true; });
 
+  document.querySelectorAll('[data-category]').forEach(b=>b.onclick=()=>{activeTool=ghost=linkPending=null;selectedId=null;chooseCategory(b.dataset.category);updateUI();});
+  function setProperty(fn){const p=selected();if(!editing()||!p)return;if(activeTool){fn(p);updateInspector();}else mutate(()=>fn(p));}
+  $('static-btn').onclick=()=>setProperty(p=>p.dynamic=false);
+  $('dynamic-btn').onclick=()=>setProperty(p=>p.dynamic=true);
+  document.querySelectorAll('[data-motor]').forEach(b=>b.onclick=()=>setProperty(p=>p.motor=Number(b.dataset.motor)));
+  $('move-group-btn').onclick=()=>{groupMove=!groupMove;updateInspector();};
+  $('detach-btn').onclick=()=>{const p=selected();if(!p)return;mutate(()=>{items=items.filter(j=>!P.isLink(j)||(j.a.body!==p.id&&j.b.body!==p.id));},'连接已拆除，可撤销。');};
   // Tiny, optional synthesized sound effects. No external audio assets.
   function resumeAudio() {
     if (muted) return;
@@ -1355,6 +1812,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
       ctx.beginPath(); ctx.moveTo(-w / 2 + 30, -3); ctx.lineTo(-w / 2 + w * .47, -3);
       ctx.moveTo(-w * .17, 3); ctx.lineTo(w * .3, 3); ctx.moveTo(w * .31, -2); ctx.lineTo(w / 2 - 29, -2); ctx.stroke();
       [-w / 2 + 13, w / 2 - 13].forEach(x => { ctx.beginPath(); ctx.arc(x, 0, 2.5, 0, Math.PI * 2); ctx.fillStyle = '#947145'; ctx.fill(); ctx.strokeStyle = '#eacf9e'; ctx.lineWidth = .9; ctx.beginPath(); ctx.moveTo(x - 1, -1); ctx.lineTo(x + 1, 1); ctx.stroke(); });
+      if(p.dynamic){ctx.fillStyle='#446650';rr(-11,-6,22,12,3);ctx.fill();ctx.fillStyle='#f2f4df';ctx.font='bold 9px sans-serif';ctx.textAlign='center';ctx.fillText('动',0,3);}
     } else if (p.type === 'spring') {
       let compression = 0;
       if (sim && sim.cooldowns[p.id] != null) compression = Math.max(0, 1 - (sim.time - sim.cooldowns[p.id]) / .2) * 5;
@@ -1364,6 +1822,14 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
       rr(-44, -13 + compression, 88, 8, 3); ctx.fillStyle = '#eea078'; ctx.fill(); ctx.strokeStyle = '#b97751'; ctx.lineWidth = 1.5; ctx.stroke();
       ctx.fillStyle = '#b97751'; [-34, 34].forEach(x => { ctx.beginPath(); ctx.arc(x, -9 + compression, 1.7, 0, Math.PI * 2); ctx.fill(); });
       ctx.strokeStyle = '#cb9979'; ctx.lineWidth = 1.7; arrow(0, -24, 0, -47, 7);
+    } else if(p.type==='wheel'){
+      const r=p.radius;
+      ctx.beginPath();ctx.arc(1,3,r,0,Math.PI*2);ctx.fillStyle='#9fae9d';ctx.fill();
+      ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fillStyle='#4b6357';ctx.fill();ctx.strokeStyle='#304d3d';ctx.lineWidth=2;ctx.stroke();
+      ctx.beginPath();ctx.arc(0,0,r*.70,0,Math.PI*2);ctx.fillStyle='#e3eacb';ctx.fill();ctx.strokeStyle='#82986b';ctx.lineWidth=4;
+      for(let i=0;i<6;i++){const a=i*Math.PI/3;ctx.beginPath();ctx.moveTo(Math.cos(a)*r*.19,Math.sin(a)*r*.19);ctx.lineTo(Math.cos(a)*r*.62,Math.sin(a)*r*.62);ctx.stroke();}
+      ctx.beginPath();ctx.arc(0,0,6,0,Math.PI*2);ctx.fillStyle=p.motor?'#e8a16c':'#799265';ctx.fill();
+      if(editing()&&p.motor){ctx.save();ctx.rotate(-p.angle);ctx.strokeStyle='#c98b50';ctx.lineWidth=2;const direction=Math.sign(p.motor);arrow(-r*.4*direction,-r-12,r*.4*direction,-r-12,5);ctx.restore();}
     } else {
       rr(-25, -32, 52, 70, 11); ctx.fillStyle = '#78936b'; ctx.fill();
       rr(-26, -35, 52, 70, 11); ctx.fillStyle = '#c3d4b8'; ctx.fill(); ctx.strokeStyle = '#819a70'; ctx.lineWidth = 1.5; ctx.stroke();
@@ -1379,6 +1845,7 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     ctx.restore();
   }
   function drawSelection(p, isGhost = false) {
+    if(P.isLink(p)){drawConnection(p,items,true);return;}
     const [w, h] = P.dimensions(p), px = 1 / view.scale;
     ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.angle);
     ctx.strokeStyle = isGhost ? '#9caa88' : '#759357'; ctx.lineWidth = 1.3 * px; ctx.setLineDash([3 * px, 3 * px]);
@@ -1391,6 +1858,20 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
       ctx.beginPath(); ctx.moveTo(kx - 4 * px, -5 * px); ctx.lineTo(kx + px, -5 * px); ctx.lineTo(kx, 0); ctx.stroke();
     }
     ctx.restore();
+  }
+  function drawConnection(p,scene,highlight=false){
+    const a=P.anchorPoint(p.a,scene),b=P.anchorPoint(p.b,scene);ctx.save();ctx.lineCap='round';ctx.lineJoin='round';
+    if(p.type==='rope'){
+      const d=Math.hypot(b.x-a.x,b.y-a.y),sag=Math.min(100,Math.sqrt(Math.max(0,p.length*p.length-d*d))*.5);
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.quadraticCurveTo((a.x+b.x)/2,(a.y+b.y)/2+sag,b.x,b.y);
+      if(highlight){ctx.strokeStyle='#c1ce9a';ctx.lineWidth=9/view.scale;ctx.stroke();}
+      ctx.strokeStyle='#b08658';ctx.lineWidth=4;ctx.stroke();ctx.strokeStyle='#e2c08c';ctx.lineWidth=1.1;ctx.setLineDash([4,4]);ctx.stroke();ctx.setLineDash([]);
+    }else{ctx.strokeStyle='#719285';ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}
+    for(const [q,e] of [[a,p.a],[b,p.b]]){
+      if(!e.body){ctx.fillStyle='#dce5d1';rr(q.x-13,q.y-13,26,26,5);ctx.fill();ctx.strokeStyle='#879d75';ctx.lineWidth=1.5;ctx.stroke();}
+      ctx.beginPath();ctx.arc(q.x,q.y,p.type==='axle'?8:5,0,Math.PI*2);ctx.fillStyle=p.type==='axle'?'#f5d099':'#f0dec0';ctx.fill();ctx.strokeStyle=highlight?'#315d49':'#8d7858';ctx.lineWidth=highlight?3:1.5;ctx.stroke();
+      ctx.strokeStyle='#84663f';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(q.x-3,q.y);ctx.lineTo(q.x+3,q.y);ctx.moveTo(q.x,q.y-3);ctx.lineTo(q.x,q.y+3);ctx.stroke();
+    }ctx.restore();
   }
   function drawBall(b) {
     ctx.save(); ctx.translate(b.x, b.y);
@@ -1429,11 +1910,14 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     ctx.setTransform(view.dpr * view.scale, 0, 0, view.dpr * view.scale, view.dpr * view.ox, view.dpr * view.oy);
     ctx.save(); ctx.beginPath(); ctx.rect(0, 0, P.W, P.H); ctx.clip();
     drawBackground();
-    for (const p of items) if (p.type === 'fan') drawWind(p, sim ? sim.time : 0, p.id === selectedId && editing());
+    const sceneItems=sim?.mechanical?sim.items:items;
+    for (const p of sceneItems) if (p.type === 'fan') drawWind(p, sim ? sim.time : 0, p.id === selectedId && editing());
     if (activeTool === 'fan' && ghost) drawWind(ghost, 0, true);
     if (showPath) { drawPath(previousPath, true); if (sim) drawPath(sim.path); }
     drawGoal(); drawStart();
-    for (const p of items) drawPart(p);
+    for(const p of sceneItems)if(!P.isLink(p))drawPart(p);
+    for(const p of sceneItems)if(P.isLink(p))drawConnection(p,sceneItems);
+    if(editing()&&linkPending){const a=P.anchorPoint(linkPending,items);ctx.save();ctx.strokeStyle='#bd8959';ctx.lineWidth=2/view.scale;ctx.setLineDash([5/view.scale,5/view.scale]);ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(pointer.x,pointer.y);ctx.stroke();ctx.setLineDash([]);ctx.beginPath();ctx.arc(a.x,a.y,8/view.scale,0,Math.PI*2);ctx.stroke();ctx.restore();}
     if (editing() && !activeTool && selected()) drawSelection(selected());
     if (editing() && ghost) { drawPart(ghost, .55); drawSelection(ghost, true); }
     drawBall(sim ? sim.ball : { ...level().start, r: P.R, rotation: 0 });
@@ -1469,14 +1953,19 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     const r = wrap.getBoundingClientRect();
     if (!r.width || !r.height) return;
     const changed = Math.abs(view.w - r.width) > .5 || Math.abs(view.h - r.height) > .5;
-    if (changed && (drag || pointers.size || cardDrag)) { cancelInteractions(); if (initialized) updateUI(); }
+    if (changed && Math.abs(view.w-r.width)>1 && (drag || pointers.size || cardDrag)) { cancelInteractions(); if (initialized) updateUI(); }
     view.w = r.width; view.h = r.height; view.dpr = Math.min(window.devicePixelRatio || 1, 2);
     const cw = Math.round(r.width * view.dpr), ch = Math.round(r.height * view.dpr);
     if (canvas.width !== cw) canvas.width = cw;
     if (canvas.height !== ch) canvas.height = ch;
     if (camera.preset === 'edit' && editing()) { camera.zoom = editCameraZoom(); camera.cx = portraitCompact() ? editCameraCenterX() : P.W / 2; }
     else if (camera.follow && mode === 'running') camera.zoom = P.clamp(camera.zoom, 1, 3.5);
-    syncCamera(); render(); needsRender = false;
+    syncCamera();
+    if(drag&&drag.type==='move'&&pointers.has(drag.pointerId)){
+      const screen=pointers.get(drag.pointerId),p=items.find(p=>p.id===drag.id);
+      if(p){drag.dx=(screen.x-view.ox)/view.scale-p.x;drag.dy=(screen.y-view.oy)/view.scale-p.y;}
+    }
+    render(); needsRender=false;
   }
   function physicsTick() {
     if (!sim || mode !== 'running') return;
@@ -1507,14 +1996,14 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
   // Optional, local-only test hooks. No hooks are exposed during ordinary play.
   if (location.hash === '#test' || window.__LAB_ENABLE_TEST__ === true) window.__LAB_TEST__ = {
     state: () => ({ mode, levelIndex, items: P.clone(items), selectedId, activeTool, past: past.length, future: future.length,
-      sim: sim ? { state: sim.state, time: sim.time, ball: { ...sim.ball }, pathLength: sim.path.length } : null, previousPathLength: previousPath.length, storageOK, usedExample, view: { ...view }, camera: { ...camera }, compact: compact(), activePointers: pointers.size, dragType: drag?.type || null, focus: document.body.classList.contains('focus-mode') }),
-    loadLevel, loadExample, start, returnToEdit, undo, chooseTool, rotateSelected, resetCamera, fitCamera, zoomBy, updateFollowCamera,
+      sim: sim ? { state: sim.state, time: sim.time, ball: { ...sim.ball }, pathLength: sim.path.length,mechanical:!!sim.mechanical,items:P.clone(sim.items) } : null, previousPathLength: previousPath.length, storageOK, usedExample, view: { ...view }, camera: { ...camera }, compact: compact(), activePointers: pointers.size, dragType: drag?.type || null, focus: document.body.classList.contains('focus-mode') }),
+    loadLevel, loadExample, start, returnToEdit, undo, chooseTool, rotateSelected, resetCamera, fitCamera, zoomBy, updateFollowCamera,connectAt,placeTool,deleteSelected,togglePause,
+    setItems:parts=>{items=sanitizeParts(parts)||[];selectedId=null;refreshLinks();save();updateUI();},select:id=>{selectedId=id;activeTool=ghost=linkPending=null;updateUI();},
     advance: seconds => { const count = Math.ceil(seconds / P.DT); for (let i = 0; i < count && mode === 'running'; i++) physicsTick(); render(); return mode; }
   };
 })();
 
 </script>
-
 <script>
 (() => {
   const standalone = window.matchMedia?.('(display-mode: standalone)').matches || window.navigator.standalone === true;
@@ -1549,11 +2038,42 @@ body[data-mode=running] .view-controls,body[data-mode=paused] .view-controls{opa
     say(isiOS ? 'iPhone：点 Safari 的分享按钮 →「添加到主屏幕」。' : '浏览器菜单里选择「安装应用」或「添加到主屏幕」。');
   });
   window.addEventListener('appinstalled', () => say('安装完成！以后可从主屏幕直接进入。'));
-  if ('serviceWorker' in navigator && location.protocol !== 'file:') {
-    window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}), { once:true });
+  const VERSION='0.5.0';
+  let registration=null;
+  const canRegister='serviceWorker' in navigator && ['https:','http:'].includes(location.protocol);
+  async function register(){
+    if(!canRegister)return null;
+    try {registration=await navigator.serviceWorker.register('./sw.js',{updateViaCache:'none'});return registration;}
+    catch(_){return null;}
   }
+  if(canRegister){
+    if(document.readyState==='complete')register();else window.addEventListener('load',register,{once:true});
+    navigator.serviceWorker.addEventListener('controllerchange',()=>{
+      // No automatic reload: a cache update must not interrupt a running experiment.
+      say('离线资源已就绪。游戏不会中断；以后可用“检查更新”获取新版。');
+    });
+  }
+  document.getElementById('update-app-btn')?.addEventListener('click',async()=>{
+    menu?.setAttribute('hidden','');
+    if(['running','paused'].includes(document.body.dataset.mode)){say('先返回编辑，再检查更新，避免中断实验。');return;}
+    if(!canRegister){say('当前是单文件预览。上传完整 PWA 包后可检查更新。');return;}
+    say('正在联网检查更新…');
+    const abort=new AbortController(),timeout=setTimeout(()=>abort.abort(),12000);
+    try{
+      const reg=registration||await register();if(reg)reg.update().catch(()=>{});
+      reg?.waiting?.postMessage({type:'SKIP_WAITING'});
+      const response=await fetch('./index.html?version-check='+Date.now(),{cache:'no-store',signal:abort.signal});
+      if(!response.ok)throw new Error('HTTP '+response.status);
+      const html=await response.text(),doc=new DOMParser().parseFromString(html,'text/html');
+      const next=doc.querySelector('meta[name="application-version"]')?.content;
+      if(!next){say('服务器文件尚未更新完整，请稍后再试。');return;}
+      if(next===VERSION){say('当前已是服务器提供的 V'+VERSION+'。');return;}
+      location.reload();
+    }catch(_){say('暂时无法联网检查更新，已缓存的游戏仍可继续玩。');}
+    finally{clearTimeout(timeout);}
+  });
 })();
-</script>
 
+</script>
 </body>
 </html>

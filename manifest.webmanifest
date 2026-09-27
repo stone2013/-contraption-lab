@@ -1,7 +1,7 @@
 {
   "name": "造啥都行 · Contraption Lab",
   "short_name": "造啥都行",
-  "description": "用木板、弹簧和风扇把小球送到终点的物理建造解谜游戏。",
+  "description": "V0.5 机械时代：用动态木板、轮子、转轴与绳子完成六关物理建造挑战。",
   "lang": "zh-CN",
   "start_url": "./",
   "scope": "./",
@@ -26,5 +26,6 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ]
+  ],
+  "id": "./"
 }
